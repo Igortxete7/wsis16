@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create an Account</title>
+        <style>
+      body {background-color: black; background-image: url("http://3.bp.blogspot.com/-f2XX6_CJNNc/VCaHU7fHwJI/AAAAAAAAGig/ORo4Kah5u-Q/s1600/simple-gray-texture.jpg");}
+      h1   {color: black; font-family: Calibri; font-size: 300%; font-weight: bold;}
+      p    {color: black; font-size: 150%;}
+      body {color: black;}
+    </style>
+
+  <script src="functions.js"></script>
+    
+  </head>
+  <body hspace="50">
+    <h1><u>Create an account</u></h1>
+    <form id="erregistro" name="erregistro" onSubmit="balioztatu()" method="post" >
+      First name:<br>
+      <input type="text" name="First name" id="First name"><font color="red">*</font><br>
+      Last name:<br>
+      <input type="text" name="Last name" id="Last name"><font color="red">*</font><br>
+      e-mail:<br>
+      <input type="text" name="e-mail" id="e-mail"><font color="red">*</font><br>
+      Password:<br>
+      <input type="password" name="Password" id="Password"><font color="red">*</font><br>
+      Phone number:<br>
+      <input type="text" name="Telephone number" id="Telephone number"><font color="red">*</font><br>
+      Department:<br>
+      <select name="Department" id="Department">
+        <option value="Software Engineering">Software Engineering</option>
+        <option value="Computer Engineering">Computer Engineering</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Others">Others</option>
+      </select><font color="red">*</font><br>
+      Technologies and tools you're interested in: <br>
+      <textarea rows="4" cols="50" name="Text"></textarea> <br>
+      Picture:<br>
+      <input type="file" name="Picture" id="Picture" accept="image/*">
+      <p> </p>
+      <button type="submit" value="Submit">Submit</button>
+      <button type="reset" value="Reset">Reset</button>
+    </form>
+    <form action="layout.html">
+      <p> </p>
+      <input type="submit" value="Go back">
+    </form>
+  </body>
+</html>
