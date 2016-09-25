@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-
-    <!--Irudiak ikusteko-->
-    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-
     <meta charset="utf-8">
     <title>Create an Account</title>
         <style>
@@ -14,42 +8,36 @@
       h1   {color: black; font-family: Calibri; font-size: 300%; font-weight: bold; text-align: center}
       p    {color: black; font-size: 150%;}
       body {color: black; margin-left: 200px; margin-right: 200px;}
-    </style>
+      </style>
 
   <script src="functions.js"></script>
     
   </head>
   <body hspace="50">
     <h1><u>Create an account</u></h1>
-    <form id="erregistro" name="erregistro" onSubmit="balioztatu()" method="post" >
+    <form id="erregistro" name="erregistro" method="post" onSubmit="ikusBalioak()">
       <fieldset>
-      First name:
-      <img id="pic" src="#" alt="your image" align="right"/>
-      <br>
-      <input type="text" name="First name" id="First name"><font color="red">*</font><br>
+      First name:<br>
+      <input type="text" name="First name" id="First name" required><font color="red">*</font><br>
       Last name:<br>
-      <input type="text" name="Last name" id="Last name"><font color="red">*</font><br>
+      <input type="text" name="Last name" id="Last name" required><font color="red">*</font><br>
       e-mail:<br>
-      <input type="text" name="e-mail" id="e-mail"><font color="red">*</font><br>
+      <input type="email" name="e-mail" id="e-mail" required><font color="red">*</font><br>
       Password:<br>
-      <input type="password" name="Password" id="Password"><font color="red">*</font><br>
+      <input type="password" name="Password" id="Password" required><font color="red">*</font><br>
       Phone number:<br>
-      <input type="text" name="Telephone number" id="Telephone number"><font color="red">*</font><br>
+      <input type="tel" name="Telephone number" id="Telephone number" required><font color="red">*</font><br>
       Department:<br>
-      <select name="Department" id="Department" onChange="addTextField()">
+      <select name="Department" id="Department">
         <option value="Software Engineering">Software Engineering</option>
         <option value="Computer Engineering">Computer Engineering</option>
         <option value="Computer Science">Computer Science</option>
         <option value="Others">Others</option>
       </select><font color="red">*</font><br>
-      <div id="container" name="container">
-
-      </div>
       Technologies and tools you're interested in: <br>
       <textarea rows="4" cols="50" name="Text"></textarea> <br>
       Picture:<br>
-      <input type="file" name="Picture" id="Picture" accept="image/*" onChange="readURL(this)">
-      
+      <input type="file" name="Picture" id="Picture" accept="image/*">
       <p> </p>
       <button type="submit" value="Submit">Submit</button>
       <button type="reset" value="Reset">Reset</button>
