@@ -71,7 +71,7 @@
           var textArea = document.createElement("textArea");
                 textArea.rows = "1";
                 textArea.cols = "20";
-                textArea.name = "Text2";
+                textArea.name = "Other Department";
           container.appendChild(textArea);
           container.appendChild(document.createElement("br"));
           }

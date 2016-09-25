@@ -9,23 +9,23 @@
 
     <meta charset="utf-8">
     <title>Create an Account</title>
-        <style>
+    <style>
       body {background-color: black; background-image: url("http://3.bp.blogspot.com/-f2XX6_CJNNc/VCaHU7fHwJI/AAAAAAAAGig/ORo4Kah5u-Q/s1600/simple-gray-texture.jpg");}
       h1   {color: black; font-family: Calibri; font-size: 300%; font-weight: bold; text-align: center}
       p    {color: black; font-size: 150%;}
       body {color: black; margin-left: 200px; margin-right: 200px;}
     </style>
 
-  <script src="functions.js"></script>
+    <script src="functions.js"></script>
     
   </head>
+
   <body hspace="50">
     <h1><u>Create an account</u></h1>
-    <form id="erregistro" name="erregistro" onSubmit="balioztatu()" method="post" >
+    <form id="erregistro" name="erregistro" onSubmit="balioztatu()" method="post">
       <fieldset>
       First name:
-      <img id="pic" src="#" alt="your image" align="right"/>
-      <br>
+      <img id="pic" src="#" alt="your image" align="right"/><br>
       <input type="text" name="First name" id="First name"><font color="red">*</font><br>
       Last name:<br>
       <input type="text" name="Last name" id="Last name"><font color="red">*</font><br>
@@ -43,13 +43,11 @@
         <option value="Others">Others</option>
       </select><font color="red">*</font><br>
       <div id="container" name="container">
-
       </div>
-      Technologies and tools you're interested in: <br>
-      <textarea rows="4" cols="50" name="Text"></textarea> <br>
+      Technologies and tools you're interested in:<br>
+      <textarea rows="4" cols="50" name="Text"></textarea><br>
       Picture:<br>
       <input type="file" name="Picture" id="Picture" accept="image/*" onChange="readURL(this)">
-      
       <p> </p>
       <button type="submit" value="Submit">Submit</button>
       <button type="reset" value="Reset">Reset</button>
