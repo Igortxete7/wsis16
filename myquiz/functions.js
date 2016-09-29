@@ -33,6 +33,7 @@
         }
 
         function balioztatu(){
+          var emaitza = false;
           var bool=false;
           var f=document.getElementById("erregistro");
           var msg="";
@@ -56,6 +57,8 @@
               alert("The e-mail is not valid!");
             else if(!validatePhone(document.getElementById("Telephone number").value))
               alert("The telephone number is not valid!");
+            else
+              emaitza=true;
           }
         }
 
