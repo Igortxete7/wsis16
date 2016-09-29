@@ -22,21 +22,21 @@
 
   <body hspace="50">
     <h1><u>Create an account</u></h1>
-    <form id="erregistro" name="erregistro" onSubmit="balioztatu()" method="post">
+    <form id="erregistro" name="erregistro" onSubmit="balioztatu()" method="post" action="Enroll.php">
       <fieldset>
       First name:
       <img id="pic" src="#" alt="your image" align="right"/><br>
-      <input type="text" name="First name" id="First name"><font color="red">*</font><br>
+      <input type="text" name="firstname" id="First name"><font color="red">*</font><br>
       Last name:<br>
-      <input type="text" name="Last name" id="Last name"><font color="red">*</font><br>
+      <input type="text" name="lastname" id="Last name"><font color="red">*</font><br>
       e-mail:<br>
-      <input type="text" name="e-mail" id="e-mail"><font color="red">*</font><br>
+      <input type="text" name="email" id="e-mail"><font color="red">*</font><br>
       Password:<br>
-      <input type="password" name="Password" id="Password"><font color="red">*</font><br>
+      <input type="password" name="password" id="Password"><font color="red">*</font><br>
       Phone number:<br>
-      <input type="text" name="Telephone number" id="Telephone number"><font color="red">*</font><br>
+      <input type="text" name="phonenumber" id="Telephone number"><font color="red">*</font><br>
       Department:<br>
-      <select name="Department" id="Department" onChange="addTextField()">
+      <select name="department" id="Department" onChange="addTextField()">
         <option value="Software Engineering">Software Engineering</option>
         <option value="Computer Engineering">Computer Engineering</option>
         <option value="Computer Science">Computer Science</option>
@@ -45,7 +45,7 @@
       <div id="container" name="container">
       </div>
       Technologies and tools you're interested in:<br>
-      <textarea rows="4" cols="50" name="Text"></textarea><br>
+      <textarea rows="4" cols="50" name="text"></textarea><br>
       Picture:<br>
       <input type="file" name="Picture" id="Picture" accept="image/*" onChange="readURL(this)">
       <p> </p>

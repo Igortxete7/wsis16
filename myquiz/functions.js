@@ -56,8 +56,6 @@
               alert("The e-mail is not valid!");
             else if(!validatePhone(document.getElementById("Telephone number").value))
               alert("The telephone number is not valid!");
-            else
-              ikusBalioak();
           }
         }
 
