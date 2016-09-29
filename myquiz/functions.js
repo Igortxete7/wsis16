@@ -60,6 +60,7 @@
             else
               emaitza=true;
           }
+          return emaitza;
         }
 
         function addTextField(){
