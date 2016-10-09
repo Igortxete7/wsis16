@@ -23,14 +23,14 @@
         }
 
         function validateName(name){
-          var regex=/[A-Z][a-z]+/;
+          var regex=/[A-Z][A-Za-z\sáéíóúñ]+/;
           return regex.test(name);
         }
 
-        function validateSecondName(sName){
+        /*function validateSecondName(sName){
           var regex=/[A-Z][a-z]+\s[A-Z][a-z]+/;
           return regex.test(sName);
-        }
+        }*/
 
         function balioztatu(){
           var emaitza = false;
@@ -49,7 +49,7 @@
           else{
             if(!validateName(document.getElementById("First name").value))
               alert("First name error!");
-            else if(!validateSecondName(document.getElementById("Last name").value))
+            else if(!validateName(document.getElementById("Last name").value))
               alert("You need to introduce two surnames!");
             else if(document.getElementById("Password").value.length <6)
               alert("Password is too short!");
@@ -70,11 +70,11 @@
 
           container.appendChild(document.createTextNode("Please specify your department:"));
           container.appendChild(document.createElement("br"));
-          var textArea = document.createElement("textArea");
-                textArea.rows = "1";
-                textArea.cols = "20";
-                textArea.name = "Other Department";
-          container.appendChild(textArea);
+          var text = document.createElement("input");
+                text.type = "text";
+                text.name = "others";
+                text.id = "Other Department"
+          container.appendChild(text);
           container.appendChild(document.createElement("br"));
           }
           else{

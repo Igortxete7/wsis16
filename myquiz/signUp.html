@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
 
-    <!--Irudiak ikusteko-->
-    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+  <!--Irudiak ikusteko-->
+  <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
 
-    <meta charset="utf-8">
-    <title>Create an Account</title>
-    <style>
-      body {background-color: black; background-image: url("http://3.bp.blogspot.com/-f2XX6_CJNNc/VCaHU7fHwJI/AAAAAAAAGig/ORo4Kah5u-Q/s1600/simple-gray-texture.jpg");}
-      h1   {color: black; font-family: Calibri; font-size: 300%; font-weight: bold; text-align: center}
-      p    {color: black; font-size: 150%;}
-      body {color: black; margin-left: 200px; margin-right: 200px;}
-    </style>
+  <meta charset="utf-8">
+  <title>Create an Account</title>
+  <style>
+  body {background-color: black; background-image: url("http://3.bp.blogspot.com/-f2XX6_CJNNc/VCaHU7fHwJI/AAAAAAAAGig/ORo4Kah5u-Q/s1600/simple-gray-texture.jpg");}
+  h1   {color: black; font-family: Calibri; font-size: 300%; font-weight: bold; text-align: center}
+  p    {color: black; font-size: 150%;}
+  body {color: black; margin-left: 200px; margin-right: 200px;}
+  </style>
 
-    <script src="functions.js"></script>
-    
-  </head>
+  <script src="functions.js"></script>
 
-  <body hspace="50">
-    <h1><u>Create an account</u></h1>
-    <form id="erregistro" name="erregistro" onSubmit="balioztatu()" method="post" action="Enroll.php">
-      <fieldset>
+</head>
+
+<body hspace="50">
+  <h1><u>Create an account</u></h1>
+  <form id="erregistro" name="erregistro" onSubmit="return balioztatu()" method="post" action="EnrollWithImage.php" enctype="multipart/form-data">
+    <fieldset>
       First name:
       <img id="pic" src="#" alt="your image" align="right"/><br>
       <input type="text" name="firstname" id="First name"><font color="red">*</font><br>
@@ -47,15 +47,15 @@
       Technologies and tools you're interested in:<br>
       <textarea rows="4" cols="50" name="text"></textarea><br>
       Picture:<br>
-      <input type="file" name="Picture" id="Picture" accept="image/*" onChange="readURL(this)">
+      <input type="file" name="picture" id="Picture" accept="image/*" onChange="readURL(this)">
       <p> </p>
       <button type="submit" value="Submit">Submit</button>
       <button type="reset" value="Reset">Reset</button>
-      </fieldset>
-    </form>
-    <form action="layout.html">
-      <p> </p>
-      <input type="submit" value="Go back">
-    </form>
-  </body>
+    </fieldset>
+  </form>
+  <form action="layout.html">
+    <p> </p>
+    <input type="submit" value="Go back">
+  </form>
+</body>
 </html>
