@@ -34,12 +34,14 @@
   <script src="functions.js"></script>
 
 </head>
-
 <body hspace="50">
   <div align='center'>
     <img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
   </div>
-  
+  <form action="layout.html">
+    <input type="submit" value="Go back">
+  </form>
+
   <p id='name'>Sign Up</p>
   <form id="erregistro" name="erregistro" onSubmit="return balioztatu()" method="post" action="EnrollWithImage.php" enctype="multipart/form-data">
     <fieldset>
@@ -78,10 +80,6 @@
       <button class="button button2" onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" type="submit" value="Submit">Submit</button>
       <button class="button button2" onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" type="reset" value="Reset">Reset</button>
     </fieldset>
-  </form>
-  <form action="layout.html">
-    <p> </p>
-    <input type="submit" value="Go back">
   </form>
 </body>
 </html>

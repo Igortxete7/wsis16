@@ -29,8 +29,14 @@
 </head>
 
 <body hspace="50">
+	
 	<div align='center'>
 		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
+	</div>
+	<form action="layout.html">
+		<input type="submit" value="Go back">
+	</form>
+	<div align='center'>
 		<p id='name'> Sign In </p>
 		<p id='sur'>Use your work or school, or personal Google account.</p>
 		<form id="login" name="login" method="post" action="signIn.php">

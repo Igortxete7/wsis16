@@ -11,12 +11,11 @@
 <body>
 	<div align='center'>
 		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
-
-		<p id='name'> Users </p>
-		<form action="layout.html">
-			<input type="submit" value="Go back">
-		</form>
 	</div>
+	<form action="layout.html">
+			<input type="submit" value="Go back">
+	</form>
+	<p id='name' align='center'> Users </p>
 </body>
 </html>
 
