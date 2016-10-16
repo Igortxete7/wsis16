@@ -87,16 +87,24 @@ function readURL(input) {
     reader.onload = function (e) {
       $("#pic")
       .attr("src", e.target.result)
-                      //.width(150)
-                      .height(200);
-                    };
+      //.width(150)
+      .height(200);
+    };
 
-                    reader.readAsDataURL(input.files[0]);
-                  }
-                }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 
-                function changeBack(elmnt, clr) {
-                  elmnt.style.background = clr;
-                }
+function changeBack(elmnt, clr) {
+  elmnt.style.background = clr;
+}
+
+
+function del(){
+  var element = document.getElementById("container");
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
 
 

@@ -12,7 +12,7 @@
   <style>
   p#name  {font-size: 250%; text-align:center; font-weight: 100;}
   p#space {font-size: 10%;}
-  body {color: black; margin-left: 200px; margin-right: 200px; font-family: 'Helvetica Neue';}
+  body#rest {color: black; margin-left: 200px; margin-right: 200px; font-family: 'Helvetica Neue';}
   fieldset {background-color: rgba(0,0,0,0.05); border:none;}
   input   {font-size:100%;}
   select  {font-size:100%;}
@@ -34,13 +34,18 @@
   <script src="functions.js"></script>
 
 </head>
-<body hspace="50">
+<body>
   <div align='center'>
     <img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
   </div>
-  <form action="layout.html">
+  <form action="layout.html" style="position: absolute; top: 25px; left: 25px;">
     <input type="submit" value="Go back">
   </form>
+
+</body>
+
+<body id='rest' hspace="50">
+  
 
   <p id='name'>Sign Up</p>
   <form id="erregistro" name="erregistro" onSubmit="return balioztatu()" method="post" action="EnrollWithImage.php" enctype="multipart/form-data">
