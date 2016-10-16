@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(isset($_SESSION['user-email'])){
+	echo "<p align='right'style='position: absolute; top: 0px; right: 10px;'>Hello, ".$_SESSION['user-firstname']." ".$_SESSION['user-lastname']." | <a href='logOut.php'>Logout</a></p>";
+}
+?>
+
 <html>
 <head>
 	<meta charset="utf-8">
@@ -9,7 +16,6 @@
 	p#space	{font-size: 10%; }
 	body	{font-family: 'Helvetica Neue'}
 	button 	{width:400px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
-	div#container	{color: green;}
 
 	.button {
 		-webkit-transition-duration: 0.4s; /* Safari */
@@ -31,17 +37,12 @@
 <body hspace="50">
 	<div align='center'>
 		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
-	</div>
-	<div>
-		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;">
-			<input type="submit" value="Go back">
+		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;" method="post">
+			<input type="submit" value="Home">
 		</form>
-		<form action="showQuestions.php" style="position: absolute; top: 25px; right: 25px;">
+		<form action="ShowQuestions.php" style="position: absolute; top: 50px; left: 25px;" method="post">
 			<input type="submit" value="Show questions">
 		</form>
-	</div>
-
-	<div align='center'>
 		<p id='name'> Insert Question </p>
 		<p id='sur'>Insert any kind of question in the first field and the answer below. <br> If you want you can specify the difficulty.</p>
 		<br>
@@ -89,37 +90,53 @@ if(isset($_POST["submit"])){
 	//$connect = mysqli_connect("mysql.hostinger.es", "u218379427_igor", "isanchez127", "u218379427_quiz");
 	$connect = mysqli_connect("localhost", "root", "", "Quiz");
 
-	session_start();
-	$email = $_SESSION['user'];
+	$email = $_SESSION['user-email'];
 	$quest = $_POST['question'];
 	$ans = $_POST['answer'];
 
-	if(isset($_POST['diff']))
-		$diff=$_POST['diff'];
-	else
-		$diff = "";
+	if(empty($quest) || empty($ans)){
+		?>
+		<script>
+		var container = document.getElementById("container");
+		container.appendChild(document.createTextNode("You need to fill both fields."));
+		container.style.color = "red";
+		container.appendChild(document.createElement("br"));
+		container.appendChild(document.createElement("br"));
 
-	$sql = "INSERT INTO Galderak (eMail,Question,Answer,Difficulty)
-	VALUES ('$email','$quest','$ans','$diff')";
+		</script>
+		<?php
 
-	$ema=mysqli_query($connect, $sql);
+	}
+	else{
 
-	if(!$ema)
-		die('ERROR in query execution: ' . mysqli_error($connect));
-	
-	?>
-	<script>
-	var container = document.getElementById("container");
-	container.appendChild(document.createTextNode("The question was successfully created."));
-	container.appendChild(document.createElement("br"));
-	container.appendChild(document.createElement("br"));
+		if(isset($_POST['diff']))
+			$diff=$_POST['diff'];
+		else
+			$diff = "";
 
-	</script>
-	<?php
+		$sql = "INSERT INTO Galderak (eMail,Question,Answer,Difficulty)
+		VALUES ('$email','$quest','$ans','$diff')";
 
-	mysqli_free_result($ema);
-	mysqli_close($connect);
+		$ema=mysqli_query($connect, $sql);
+
+		if(!$ema)
+			die('ERROR in query execution: ' . mysqli_error($connect));
+
+		?>
+		<script>
+		var container = document.getElementById("container");
+		container.appendChild(document.createTextNode("The question was successfully created."));
+		container.style.color = "green";
+		container.appendChild(document.createElement("br"));
+		container.appendChild(document.createElement("br"));
+
+		</script>
+		<?php
+		mysqli_close($connect);
+	}
+
 }
+
 
 ?>
 

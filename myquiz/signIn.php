@@ -31,18 +31,15 @@
 <body hspace="50">
 
 	<div align='center'>
-		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
+		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg" >
 	</div>
-	<form action="layout.html" style="position: absolute; top: 25px; left: 25px;">
-			<input type="submit" value="Go back">
-		</form>
 	<div align='center'>
 		<p id='name'> Sign In </p>
 		<p id='sur'>Use your work or school, or personal Google account.</p>
 		<div id="container" name="container">
 		</div>
 		<form id="login" name="login" method="post" action="signIn.php">
-			<input type="email" name="user" id="User" size=40 placeholder="Email" required autofocus><br>
+			<input type="email" name="user" id="User" size=40 placeholder="Email" required onfocus="del()"><br>
 			<p id='space'></p>
 			<input type="password" name="pass" id="Pass" size=40 placeholder="Password" required><br>
 			<p id='space'></p>
@@ -60,41 +57,55 @@
 
 <?php
 
-
-
+session_start();
 
 if(isset($_POST["submit"])){
 
-//$connect = mysqli_connect("mysql.hostinger.es", "u218379427_igor", "isanchez127", "u218379427_quiz");
-	$connect = mysqli_connect("localhost", "root", "", "Quiz"); 
+	$email = $_POST['user'];
+	$password = $_POST['pass'];
 
-	$email = mysqli_real_escape_string($connect,$_POST['user']);
-	$password = mysqli_real_escape_string($connect,$_POST['pass']);
-
-	$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$password'";
-	$query = mysqli_query($connect,$sql);
-	//$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-
-	$count = mysqli_num_rows($query);
-
-	if($count == 1){
-		session_start();
-		$_SESSION['user'] = $email;
-		header('Location: insertQuestion.php');
-	}
-	else{
+	if(empty($email) || empty($password)){
 		?>
 		<script>
 		var container = document.getElementById("container");
-		container.appendChild(document.createTextNode("Your account or password is incorrect."));
+		container.appendChild(document.createTextNode("You need to introduce your credentials."));
 		container.appendChild(document.createElement("br"));
 		container.appendChild(document.createElement("br"));
 
 		</script>
 		<?php
 	}
-mysqli_free_result($ema);
-mysqli_close($connect);
+	else{
+
+		//$connect = mysqli_connect("mysql.hostinger.es", "u218379427_igor", "isanchez127", "u218379427_quiz");
+		$connect = mysqli_connect("localhost", "root", "", "Quiz"); 
+
+		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$password'";
+		$query = mysqli_query($connect,$sql);
+		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+		$count = mysqli_num_rows($query);
+
+		if($count == 1){
+			$_SESSION['user-email'] = $email;
+			$_SESSION['user-firstname'] = $row['First Name'];
+			$_SESSION['user-lastname'] =  $row['Last Names'];
+			header('Location: insertQuestion.php');
+		}
+		else{
+			?>
+			<script>
+			var container = document.getElementById("container");
+			container.appendChild(document.createTextNode("Your account or password is incorrect."));
+			container.appendChild(document.createElement("br"));
+			container.appendChild(document.createElement("br"));
+
+			</script>
+			<?php
+			mysqli_free_result($query);
+			mysqli_close($connect);
+		}
+
+	}
 }
 
 
