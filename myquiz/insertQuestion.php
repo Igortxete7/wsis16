@@ -42,7 +42,7 @@ if(isset($_SESSION['user-email'])){
 		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;" method="post">
 			<input type="submit" value="Home">
 		</form>
-		<form action="ShowQuestions.php" style="position: absolute; top: 50px; left: 25px;" method="post">
+		<form action="showQuestions.php" style="position: absolute; top: 50px; left: 25px;" method="post">
 			<input type="submit" value="Show questions">
 		</form>
 		<p id='name'> Insert Question </p>
