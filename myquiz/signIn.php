@@ -32,8 +32,9 @@
 
 	<div align='center'>
 		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg" >
-	</div>
-	<div align='center'>
+		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;" method="post">
+			<input type="submit" value="Home">
+		</form>
 		<p id='name'> Sign In </p>
 		<p id='sur'>Use your work or school, or personal Google account.</p>
 		<div id="container" name="container">

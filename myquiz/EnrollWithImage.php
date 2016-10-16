@@ -30,7 +30,7 @@ if(!$ema){
 
 echo "<br>";
 echo "The registration was successful!";
-echo "<p> <a href='ShowUsersWithImage.php'>Erregistroak ikusi</a>";
+echo "<p> <a href='showUsersWithImage.php'>Show registers</a>";
 
 mysqli_close($connect);
 
