@@ -92,7 +92,7 @@ if(isset($_POST["submit"])){
 			$_SESSION['user-firstname'] = $row['First Name'];
 			$_SESSION['user-lastname'] =  $row['Last Names'];
 
-			$date = date ("Y-m-d h:i:sa");
+			$date = date ("Y-m-d H:i:sa");
 			$sql2 = "INSERT INTO Konexioak (User,Data)
 			VALUES ('$email','$date')";
 			$ema2=mysqli_query($connect, $sql2);
