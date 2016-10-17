@@ -10,13 +10,14 @@ if(isset($_SESSION['user-email'])){
 <html>
 <head>
 	<meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
 	<title>Insert Question</title>
 	<style>
 	p#name  {font-size: 250%; text-align: center; font-weight: 100;}
 	p#sur	{text-align: center;}
 	input 	{font-size:100%;}
 	p#space	{font-size: 10%; }
-	body	{font-family: 'Helvetica Neue'}
+	body	{font-family: 'Roboto', sans-serif;}
 	button 	{width:400px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
 
 	.button {
@@ -122,6 +123,22 @@ if(isset($_POST["submit"])){
 		$ema=mysqli_query($connect, $sql);
 
 		if(!$ema)
+			die('ERROR in query execution: ' . mysqli_error($connect));
+
+		//EKINTZAK TAULARA GEHITU
+
+		$konex = $_SESSION['konex-id'];
+		//$email
+		$task = "Insert question";
+		$date = date ("Y-m-d H:i:sa");
+		$ip = $_SERVER['REMOTE_ADDR'];
+
+		$sql2 = "INSERT INTO Ekintzak (Konex, User, Task, Data, IP)
+		VALUES ('$konex','$email','$task','$date','$ip')";
+
+		$ema2=mysqli_query($connect, $sql2);
+
+		if(!$ema2)
 			die('ERROR in query execution: ' . mysqli_error($connect));
 
 		?>

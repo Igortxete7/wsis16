@@ -9,10 +9,12 @@ if(isset($_SESSION['user-email'])){
 <html>
 <head>
   <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
+
   <title>Credits</title>
   <style>
   p#name  {font-size: 250%; text-align: center; font-weight: 100;}
-  body  {font-family: 'Helvetica Neue'}
+  body  {font-family: 'Roboto', sans-serif;}
   img {border-radius:50px;}
   input {font-size: 100%}
   </style>

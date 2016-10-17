@@ -8,10 +8,11 @@ if(isset($_SESSION['user-email'])){
 <html>
 <head>
 	<meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
 	<title>Users</title>
 	<style>
 	p#name  {font-size: 250%; text-align: center; font-weight: 100;}
-	body	{font-family: 'Helvetica Neue'}
+	body	{font-family: 'Roboto', sans-serif;}
 	input   {font-size:100%;}
 	table	{border-collapse: collapse; width: 80%; }
 	th		{text-align: center; padding: 8px; border-bottom: 1px solid #ddd;}
