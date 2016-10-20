@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(isset($_SESSION['user-email'])){
+	die("ERROR: you are logged in already.");
+}
+?>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -59,8 +65,6 @@
 
 <?php
 
-session_start();
-
 if(isset($_POST["submit"])){
 
 	$email = $_POST['user'];
@@ -79,8 +83,7 @@ if(isset($_POST["submit"])){
 	}
 	else{
 
-		//$connect = mysqli_connect("mysql.hostinger.es", "u218379427_igor", "isanchez127", "u218379427_quiz");
-		$connect = mysqli_connect("localhost", "root", "", "Quiz"); 
+		include("dataBase.php");
 
 		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$password'";
 		$query = mysqli_query($connect,$sql);
@@ -100,7 +103,7 @@ if(isset($_POST["submit"])){
 			if(!$ema2)
 				die('ERROR in insert konnexion: ' . mysqli_error($connect));
 
-			$sql3 = "SELECT MAX(ID) FROM Konexioak";
+			$sql3 = "SELECT MAX(ID) FROM Konexioak WHERE eMail = '$email'"; //OJO QUE LO HE CAMBIADO
 			$result = mysqli_query($connect,$sql3);
 			$row = mysqli_fetch_row($result);
 

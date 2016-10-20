@@ -90,8 +90,7 @@ if(isset($_SESSION['user-email'])){
 
 if(isset($_POST["submit"])){
 
-	//$connect = mysqli_connect("mysql.hostinger.es", "u218379427_igor", "isanchez127", "u218379427_quiz");
-	$connect = mysqli_connect("localhost", "root", "", "Quiz");
+	include("dataBase.php");
 
 	$email = $_SESSION['user-email'];
 	$quest = $_POST['question'];

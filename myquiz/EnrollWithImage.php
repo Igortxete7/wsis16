@@ -1,6 +1,5 @@
 <?php
-//$connect = mysqli_connect("mysql.hostinger.es", "u218379427_igor", "isanchez127", "u218379427_quiz");
-$connect = mysqli_connect("localhost", "root", "", "Quiz");
+include("dataBase.php");
 
 if ($_POST['department']=='Others') {
 	$var1 = $_POST['others'];
@@ -14,14 +13,53 @@ if(isset($_FILES['picture']) && $_FILES['picture']['size']>0){
 	$image="";
 }
 
+//Balioen kontrolak
+
+$name = $_POST['firstname'];
+
+if(filter_var($name, FILTER_VALIDATE_REGEXP, array("options" => array( "regexp" => "/[A-ZÁÉÍÓÚÑ][A-Za-z\sáéíóúñ]+/")))){
+	echo("$name is a valid username <br>");
+} else {
+	die("$name is not a valid username!");
+}
+
+
+$surname = $_POST['lastname'];
+
+if(filter_var($surname, FILTER_VALIDATE_REGEXP, array("options" => array( "regexp" => "/[A-ZÁÉÍÓÚÑ][A-Za-z\sáéíóúñ]+/")))){
+	echo("$surname is a valid surname <br>");
+} else {
+	die("$surname is not a valid surname!");
+}
+
+
+$password = $_POST['password'];
+
+if(strlen($password)>5){
+	echo("****** is a valid password <br>");
+} else {
+	die("****** is not a password!");
+}
+
+
+$phonenumber = $_POST['phonenumber'];
+
+if(!filter_var($phonenumber, FILTER_VALIDATE_REGEXP, array("options" => array( "regexp" => "/[0-9]{9}/"))) == false){
+	echo("$phonenumber is a valid telephone <br>");
+} else {
+	die("$phonenumber is not a valid telephone!");
+}
+
+
 $email = $_POST['email'];
 
 if (!filter_var($email, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/[a-zA-Z]+\d{3}@ikasle\.ehu\.e(u?)s/"))) === false) {
-  echo("$email is a valid email address");
-  $sql="INSERT INTO Erabiltzaile VALUES ('$_POST[firstname]', '$_POST[lastname]', '$email', '$_POST[password]', '$_POST[phonenumber]', '$var1', '$_POST[text]', '$image')";
+	echo("$email is a valid email address <br>");
 } else {
-  echo("$email is not a valid email address");
+	die("$email is not a valid email address!");
 }
+
+$sql="INSERT INTO Erabiltzaile VALUES ('$name', '$surname', '$email', '$password', '$phonenumber', '$var1', '$_POST[text]', '$image')";
 
 $ema=mysqli_query($connect, $sql);
 if(!$ema){

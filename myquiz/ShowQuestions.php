@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-//$connect = mysqli_connect("mysql.hostinger.es", "u218379427_igor", "isanchez127", "u218379427_quiz");
-$connect = mysqli_connect("localhost", "root", "", "Quiz");
+include("dataBase.php");
 
 $task = "View questions";
 $date = date ("Y-m-d H:i:sa");
