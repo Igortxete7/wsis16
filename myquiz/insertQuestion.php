@@ -62,6 +62,14 @@ if(isset($_SESSION['user-email'])){
 					<td><p id='space'></p></td>
 				</tr>
 				<tr>
+					<td><p id='space'></p></td>
+				</tr>
+				<tr>
+					<td>Subject: </td>
+					<td><input type="text" name="subject" id="subject" size=40 placeholder="Subject"></td>
+					<td><p id='space'></p></td>
+				</tr>
+				<tr>
 					<td>Difficulty:</td>
 					<td><table>
 						<tr>
@@ -100,7 +108,7 @@ if(isset($_POST["submit"])){
 		?>
 		<script>
 		var container = document.getElementById("container");
-		container.appendChild(document.createTextNode("You need to fill both fields."));
+		container.appendChild(document.createTextNode("You need to fill question and answer fields."));
 		container.style.color = "red";
 		container.appendChild(document.createElement("br"));
 		container.appendChild(document.createElement("br"));
@@ -111,18 +119,29 @@ if(isset($_POST["submit"])){
 	}
 	else{
 
-		if(isset($_POST['diff']))
-			$diff=$_POST['diff'];
+		//GALDERAK TAULARA GEHITU
+
+		if(isset($_POST['subject']))
+			$subj=$_POST['subject'];
 		else
-			$diff = "";
+			$subj = "";
 
-		$sql = "INSERT INTO Galderak (eMail,Question,Answer,Difficulty)
-		VALUES ('$email','$quest','$ans','$diff')";
 
+		if(isset($_POST['diff'])){
+			$diff=$_POST['diff'];
+			$sql = "INSERT INTO Galderak (eMail,Question,Answer,Subject,Difficulty)
+			VALUES ('$email','$quest','$ans','$subj','$diff')";
+		}else{
+			$diff="";
+			$sql = "INSERT INTO Galderak (eMail,Question,Answer,Subject,Difficulty)
+			VALUES ('$email','$quest','$ans','$subj',NULL)";
+		}
 		$ema=mysqli_query($connect, $sql);
 
 		if(!$ema)
 			die('ERROR in query execution: ' . mysqli_error($connect));
+
+
 
 		//EKINTZAK TAULARA GEHITU
 
@@ -140,6 +159,28 @@ if(isset($_POST["submit"])){
 		if(!$ema2)
 			die('ERROR in query execution: ' . mysqli_error($connect));
 
+
+
+		//XML FITXATEGIRA GEHITU
+
+		$file = 'galderak.xml';
+		$xml = simplexml_load_file($file);
+
+		//$assesmentItems = $xml->assesmentItems;
+
+		$assessmentItem = $xml->addChild('assessmentItem');
+		$assessmentItem->addAttribute('complexity', $diff);
+		$assessmentItem->addAttribute('subject', $subj);
+
+		$itemBody = $assessmentItem->addChild('itemBody');
+		$itemBody->addChild('p', $quest);
+
+		$correctResponse = $assessmentItem->addChild('correctResponse');
+		$correctResponse->addChild('value',$ans);
+
+		$xml->asXML($file);
+
+		
 		?>
 		<script>
 		var container = document.getElementById("container");

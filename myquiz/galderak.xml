@@ -16,4 +16,12 @@
 			<value>Phalloides</value>
 		</correctResponse>
 	</assessmentItem>
-<assessmentItem complexity="4" subject="mikologia"><itemBody><p>Amanita cesarea jangarria da. Bai ala Ez?</p></itemBody><correctResponse><value>Bai</value></correctResponse></assessmentItem></assessmentItems>
+	<assessmentItem complexity="4" subject="mikologia">
+		<itemBody>
+			<p>Amanita cesarea jangarria da. Bai ala Ez?</p>
+		</itemBody>
+		<correctResponse>
+			<value>Bai</value>
+		</correctResponse>
+	</assessmentItem>
+<assessmentItem complexity="1" subject="Preguntas obvias"><itemBody><p>Eneko es tonto?</p></itemBody><correctResponse><value>Yess</value></correctResponse></assessmentItem><assessmentItem complexity="3" subject="Preguntas obvias genio"><itemBody><p>Tzmik es tonto?</p></itemBody><correctResponse><value>Yes</value></correctResponse></assessmentItem></assessmentItems>
