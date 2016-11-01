@@ -108,3 +108,19 @@ function del(){
 }
 
 
+function insertQuestion(){
+
+  xhttp = new XMLHttpRequest();
+  
+
+
+}
+
+
+function showMyQuestions(){
+
+
+
+}
+
+
