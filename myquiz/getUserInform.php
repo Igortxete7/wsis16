@@ -33,6 +33,7 @@ if(isset($_SESSION['user-email'])){
 
 	<script src="functions.js"></script>
 	<script type="text/javascript">
+
 	function getInfo(){
 		var dago = false;
 		var xmlDoc = document.getElementById('xml-file').contentDocument;
@@ -58,6 +59,7 @@ if(isset($_SESSION['user-email'])){
 			alert("The e-mail does not exist.");
 		}
 	}
+
 	</script>
 
 </head>
@@ -75,7 +77,7 @@ if(isset($_SESSION['user-email'])){
 		<div id="container" name="container">
 		</div>
 		<form>
-			<input type="email" name="mail" id="mail" size=40 placeholder="Email" required onfocus="del()"><br>
+			<input type="email" name="mail" id="mail" size=40 placeholder="Email" required><br>
 			<br>
 			<br>
 			<input type="text" name="name" id="name" size=40 placeholder="Name" ><br>

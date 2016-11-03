@@ -33,6 +33,35 @@
   </style>
 
   <script src="functions.js"></script>
+  <script type="text/javascript">
+
+  xhttp = new XMLHttpRequest();
+
+  function validate(){
+    xhttp.onreadystatechange = function(){
+      if((xhttp.readyState==4) && (xhttp.status==200)){
+        var erantzuna = xhttp.responseText;
+        if(erantzuna =="BAI"){
+          document.getElementById("validator").style.color="green";
+          document.getElementById("e-mail").style.border="2px solid green";
+          document.getElementById("validator").innerHTML = "Is a valid email.";
+        }
+        else{
+          document.getElementById("validator").style.color="red";
+          document.getElementById("e-mail").style.border="2px solid red";
+          document.getElementById("validator").innerHTML = "Is not a valid email.";
+        }
+
+      }
+    }
+
+    xhttp.open("POST","emailValidator.php");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("email=" + document.getElementById("e-mail").value);
+
+  }
+
+  </script>
 
 </head>
 <body>
@@ -46,7 +75,7 @@
 </body>
 
 <body id='rest' hspace="50">
-  
+
 
   <p id='name'>Sign Up</p>
   <form id="erregistro" name="erregistro" onSubmit="return balioztatu()" method="post" action="enrollWithImage.php" enctype="multipart/form-data">
@@ -59,7 +88,10 @@
       <input type="text" name="lastname" id="Last name"><br>
       <p id='space'></p>
       e-mail:<font color="red">*</font><br>
-      <input type="text" name="email" id="e-mail"><br>
+      <input type="text" name="email" id="e-mail" onkeyup="validate()">
+      &nbsp;
+      <span id="validator">
+      </span><br>
       <p id='space'></p>
       Password:<font color="red">*</font><br>
       <input type="password" name="password" id="Password"><br>

@@ -106,21 +106,3 @@ function del(){
     element.removeChild(element.firstChild);
   }
 }
-
-
-function insertQuestion(){
-
-  xhttp = new XMLHttpRequest();
-  
-
-
-}
-
-
-function showMyQuestions(){
-
-
-
-}
-
-

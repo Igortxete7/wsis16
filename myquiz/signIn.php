@@ -47,7 +47,7 @@ if(isset($_SESSION['user-email'])){
 		<div id="container" name="container">
 		</div>
 		<form id="login" name="login" method="post" action="signIn.php">
-			<input type="email" name="user" id="User" size=40 placeholder="Email" required onfocus="del()"><br>
+			<input type="email" name="user" id="user" size=40 placeholder="Email" required onfocus="del()">
 			<p id='space'></p>
 			<input type="password" name="pass" id="Pass" size=40 placeholder="Password" required><br>
 			<p id='space'></p>
@@ -123,8 +123,8 @@ if(isset($_POST["submit"])){
 			<?php
 			
 		}
-			mysqli_free_result($query);
-			mysqli_close($connect);
+		mysqli_free_result($query);
+		mysqli_close($connect);
 	}
 }
 
