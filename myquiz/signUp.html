@@ -36,6 +36,7 @@
   <script type="text/javascript">
 
   xhttp = new XMLHttpRequest();
+  xhttp1 = new XMLHttpRequest();
 
   function validate(){
     xhttp.onreadystatechange = function(){
@@ -58,6 +59,30 @@
     xhttp.open("POST","emailValidator.php");
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("email=" + document.getElementById("e-mail").value);
+
+  }
+
+  function validatePass(){
+    xhttp1.onreadystatechange = function(){
+      if((xhttp1.readyState==4) && (xhttp1.status==200)){
+        var erantzuna = xhttp1.responseText;
+        if(erantzuna =="BALIOZKOA"){
+          document.getElementById("validator2").style.color="green";
+          document.getElementById("Password").style.border="2px solid green";
+          document.getElementById("validator2").innerHTML = "Is a strong password.";
+        }
+        else{
+          document.getElementById("validator2").style.color="red";
+          document.getElementById("Password").style.border="2px solid red";
+          document.getElementById("validator2").innerHTML = "Is not a strong password.";
+        }
+
+      }
+    }
+
+    xhttp1.open("POST","passValidator.php");
+    xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp1.send("pass=" + document.getElementById("Password").value);
 
   }
 
@@ -88,13 +113,16 @@
       <input type="text" name="lastname" id="Last name"><br>
       <p id='space'></p>
       e-mail:<font color="red">*</font><br>
-      <input type="text" name="email" id="e-mail" onkeyup="validate()">
+      <input type="text" name="email" id="e-mail" onchange="validate()">
       &nbsp;
       <span id="validator">
       </span><br>
       <p id='space'></p>
       Password:<font color="red">*</font><br>
-      <input type="password" name="password" id="Password"><br>
+      <input type="password" name="password" id="Password" onchange="validatePass()">
+      &nbsp;
+      <span id="validator2">
+      </span><br>
       <p id='space'></p>
       Phone number:<font color="red">*</font><br>
       <input type="text" name="phonenumber" id="Telephone number"><br>

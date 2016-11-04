@@ -1,12 +1,3 @@
-<html>
-<head>
-	<meta charset="utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
-	<title>Insert Question</title>
-	<script src="functions.js"></script>
-
-</head>
-
 <body hspace="50">
 	<div align='center'>
 		<p id='name'> Insert Question </p>
@@ -51,14 +42,11 @@
 			<div id='container'>
 			</div>
 			<button class="button button2" id='hover' type="submit" value="Submit" name="submit" size=40 onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')"> Add question </button>
-		</form>
-	</div>
-
-</body>
-</html>
+		</div>
+	</form>
+</div>
 
 <?php
-session_start();
 
 if(isset($_POST["submit"])){
 
@@ -142,7 +130,7 @@ if(isset($_POST["submit"])){
 
 		$xml->asXML($file);
 
-		
+
 		?>
 		<script>
 		var container = document.getElementById("container");
@@ -160,3 +148,9 @@ if(isset($_POST["submit"])){
 
 
 ?>
+
+
+
+
+
+

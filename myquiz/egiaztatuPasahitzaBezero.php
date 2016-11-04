@@ -6,6 +6,9 @@
 	<style type="text/css">
 	body  {margin:50px;}
 	</style>
+	<script>
+	
+	</script>
 </head>
 
 <body hspace="50">
@@ -13,7 +16,7 @@
 		<legend>Sartu pasahitz bat</legend>
 		<form action="egiaztatuPasahitzaBezero.php" method="post">
 			<br>
-			<input type="password" name="pass"><br>
+			<input type="password" name="pass" required onchange="validate()"><br>
 			<input type="submit" value="Submit" name="submit"><br>
 		</form>
 	</fieldset>
@@ -28,7 +31,7 @@ if(isset($_POST["submit"])){
 
 	$soapclient = new nusoap_client('http://localhost/wsis16/myquiz/egiaztatuPasahitzaZerbitzari.php?wsdl', true);
 
-	$result = $soapclient->call('egiaztatuE',array('x'=>"$_POST[pass]"));
+	$result = $soapclient->call('validatePass',array('pass'=>"$_POST[pass]"));
 	echo "Zure pasahitza ";
 	echo $result;
 	echo " da.";

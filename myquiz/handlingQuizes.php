@@ -18,7 +18,7 @@ if(isset($_SESSION['user-email'])){
 	input 	{font-size:100%;}
 	p#space	{font-size: 10%; }
 	body	{font-family: 'Roboto', sans-serif;}
-	button 	{width:200px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
+	.button 	{width:200px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
 
 	.button {
 		-webkit-transition-duration: 0.4s; /* Safari */
@@ -34,10 +34,11 @@ if(isset($_SESSION['user-email'])){
 	</style>
 
 	<script src="functions.js"></script>
+
 	<script type="text/javascript">
+
 	xhttp = new XMLHttpRequest();
 	xhttp1 = new XMLHttpRequest();
-
 
 	xhttp.onreadystatechange = function(){
 		if (xhttp.readyState==4){
@@ -98,9 +99,14 @@ if(isset($_SESSION['user-email'])){
 			<button class="button button2" id='hover' type="submit" size=40 onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" onclick="datuakEskatu2()"> Show my questions </button>
 		</div>
 		<br>
-		<div align="center" id="insert">
+		<div align="center" id="answer" name="answer">
 		</div>
+		<br>
+		<div align="center" id="insert" name="insert">
+		</div>
+		
 	</div>
+	<br><br><br>
 
 </body>
 </html>

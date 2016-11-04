@@ -9,7 +9,7 @@
 	p#sur	{text-align: center;}
 	input 	{font-size:100%;}
 	p#space	{font-size: 10%;}
-	body	{font-family: 'Roboto', sans-serif;}
+	body	{font-family: 'Roboto', sans-serif; position: center;}
 	button 	{width:400px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
 	div#container {color: red;}
 
@@ -33,9 +33,11 @@
 	<br>
 	<br>
 	<br>
-	<form action="myquiz/layout.html" align="center">
+	<div align="center">
+	<form action="myquiz/layout.html">
 		<button class="button button2" onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" type="submit" value="Submit">Enter</button>
 	</form>
+</div>
 
 </body>
 </html>

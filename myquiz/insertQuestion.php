@@ -90,7 +90,6 @@ if(isset($_SESSION['user-email'])){
 			<button class="button button2" id='hover' type="submit" value="Submit" name="submit" size=40 onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')"> Add question </button>
 		</form>
 	</div>
-
 </body>
 </html>
 
