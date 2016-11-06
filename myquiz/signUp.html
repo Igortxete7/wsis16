@@ -46,11 +46,15 @@
           document.getElementById("validator").style.color="green";
           document.getElementById("e-mail").style.border="2px solid green";
           document.getElementById("validator").innerHTML = "Is a valid email.";
+          document.getElementById("Submit").disabled = false;
+          document.getElementById("Submit").style.backgroundColor = "rgb(19,122,212)";
         }
         else{
           document.getElementById("validator").style.color="red";
           document.getElementById("e-mail").style.border="2px solid red";
           document.getElementById("validator").innerHTML = "Is not a valid email.";
+          document.getElementById("Submit").disabled = true;
+          document.getElementById("Submit").style.backgroundColor = "gray";
         }
 
       }
@@ -70,11 +74,29 @@
           document.getElementById("validator2").style.color="green";
           document.getElementById("Password").style.border="2px solid green";
           document.getElementById("validator2").innerHTML = "Is a strong password.";
+          document.getElementById("Submit").disabled = false;
+          document.getElementById("Submit").style.backgroundColor = "rgb(19,122,212)";
+
+          document.getElementById("Code").style.border="1px solid #cccccc";
+          document.getElementById("validator3").innerHTML = " ";
         }
-        else{
+        else if (erantzuna == "BALIOGABEA"){
           document.getElementById("validator2").style.color="red";
           document.getElementById("Password").style.border="2px solid red";
           document.getElementById("validator2").innerHTML = "Is not a strong password.";
+          document.getElementById("Submit").disabled = true;
+          document.getElementById("Submit").style.backgroundColor = "gray";
+
+          document.getElementById("Code").style.border="1px solid #cccccc";
+          document.getElementById("validator3").innerHTML = " ";
+        }
+        else {
+          document.getElementById("validator3").style.color="red";
+          document.getElementById("Code").style.border="2px solid red";
+          document.getElementById("validator3").innerHTML = "User with no permissions.";
+          document.getElementById("Submit").disabled = true;
+          document.getElementById("Submit").style.backgroundColor = "gray";
+
         }
 
       }
@@ -82,7 +104,7 @@
 
     xhttp1.open("POST","passValidator.php");
     xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp1.send("pass=" + document.getElementById("Password").value);
+    xhttp1.send("pass=" + document.getElementById("Password").value+"&code=" + document.getElementById("Code").value);
 
   }
 
@@ -107,25 +129,31 @@
     <fieldset>
       First name:<font color="red">*</font>
       <img id="pic" src="#" alt="your image" align="right"/><br>
-      <input type="text" name="firstname" id="First name"><br>
+      <input type="text" name="firstname" id="First name" required><br>
       <p id='space'></p>
       Last name:<font color="red">*</font><br>
-      <input type="text" name="lastname" id="Last name"><br>
+      <input type="text" name="lastname" id="Last name" required><br>
       <p id='space'></p>
       e-mail:<font color="red">*</font><br>
-      <input type="text" name="email" id="e-mail" onchange="validate()">
+      <input type="text" name="email" id="e-mail" onchange="validate()" required>
       &nbsp;
       <span id="validator">
       </span><br>
       <p id='space'></p>
       Password:<font color="red">*</font><br>
-      <input type="password" name="password" id="Password" onchange="validatePass()">
+      <input type="password" name="password" id="Password" onchange="validatePass()" required>
       &nbsp;
       <span id="validator2">
       </span><br>
       <p id='space'></p>
+      Code:<font color="red">*</font><br>
+      <input type="text" name="code" id="Code" onchange="validatePass()" required>
+      &nbsp;
+      <span id="validator3">
+      </span><br>
+      <p id='space'></p>
       Phone number:<font color="red">*</font><br>
-      <input type="text" name="phonenumber" id="Telephone number"><br>
+      <input type="text" name="phonenumber" id="Telephone number" required><br>
       <p id='space'></p>
       Department:<font color="red">*</font><br>
       <select name="department" id="Department" onChange="addTextField()">
@@ -143,7 +171,7 @@
       Picture:<br>
       <input type="file" name="picture" id="Picture" accept="image/*" onChange="readURL(this)">
       <p> </p>
-      <button class="button button2" onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" type="submit" value="Submit">Submit</button>
+      <button class="button button2" id="Submit" onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" type="submit" value="Submit">Submit</button>
       <button class="button button2" onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" type="reset" value="Reset">Reset</button>
     </fieldset>
   </form>
