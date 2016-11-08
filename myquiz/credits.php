@@ -4,57 +4,20 @@ if(isset($_SESSION['user-email'])){
   echo "<p align='right'style='position: absolute; top: 0px; right: 10px;'>Hello, ".$_SESSION['user-firstname']." ".$_SESSION['user-lastname']." | <a href='logOut.php'>Logout</a></p>";
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Credits Geolocation</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
   <title>Credits</title>
   <style>
   p#name  {font-size: 250%; text-align: center; font-weight: 100;}
-  body  {font-family: 'Roboto', sans-serif;}
+  html, body  {font-family: 'Roboto', sans-serif; height:100%; margin: 0; padding: 0;}
   img {border-radius:50px;}
   input {font-size: 100%}
+  #map {height: 100%;}
   </style>
-
-  <script>
-  var x = document.getElementById("alert");
-
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-      x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-  }
-
-  function showPosition(position) {
-    var latlon = position.coords.latitude + "," + position.coords.longitude;
-
-    var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="
-    +latlon+"&zoom=14&size=400x300&sensor=true";
-    document.getElementById("mapa").innerHTML = "<img src='"+img_url+"'>";
-  }
-
-  function showError(error) {
-    switch(error.code) {
-      case error.PERMISSION_DENIED:
-      x.innerHTML = "User denied the request for Geolocation."
-      break;
-      case error.POSITION_UNAVAILABLE:
-      x.innerHTML = "Location information is unavailable."
-      break;
-      case error.TIMEOUT:
-      x.innerHTML = "The request to get user location timed out."
-      break;
-      case error.UNKNOWN_ERROR:
-      x.innerHTML = "An unknown error occurred."
-      break;
-    }
-  }
-  </script>
-
 </head>
 <body>
   <div align='center'>
@@ -64,18 +27,56 @@ if(isset($_SESSION['user-email'])){
     <input type="submit" value="Home">
   </form>
   <div align='center'>
-    <p id='name'>Credits</h1>
-      <p> Eneko Ortiz de Zarate &amp; Igor Sanchez </p>
-      <p> <strong>Speciality:</strong> Software Engineering.</p>
-      <img width=720 src="http://media.meltybuzz.es/article-2618826-fb-f1437502963/willyrex-vegetta-wigetta-fanpics-relatos.jpg">
-    </div>
-    <!-- GEOLOCATION -->
-    <div align="center">
-      <p>Your position will be displayed below.</p>
-      <button onclick="getLocation()">Try It</button>
-      <br>
-      <p id="alert"> </p>
-      <div id="mapa"></div>
-    </div>
-  </body>
-  </html>
+    <p id='name'>Credits</p>
+    <p> Eneko Ortiz de Zarate &amp; Igor Sanchez </p>
+    <p> <strong>Speciality:</strong> Software Engineering.</p>
+    <img width=720 src="http://media.meltybuzz.es/article-2618826-fb-f1437502963/willyrex-vegetta-wigetta-fanpics-relatos.jpg">
+  </div>
+  <p>User position.</p>
+  <div id="map"></div>
+  <script>
+    // Note: This example requires that you consent to location sharing when
+    // prompted by your browser. If you see the error "The Geolocation service
+    // failed.", it means you probably did not give permission for the browser to
+    // locate you.
+
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 6
+      });
+      var infoWindow = new google.maps.InfoWindow({map: map});
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        infoWindow.setPosition(pos);
+        infoWindow.setContent('Location found.');
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, infoWindow, map.getCenter());
+      });
+    } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+    'Error: The Geolocation service failed.' :
+    'Error: Your browser doesn\'t support geolocation.');
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0n6P_OOjq_bUAJ3EGWB42pljvfnyrTFU&signed_in=true&callback=initMap"
+async defer>
+</script>
+</body>
+</html>
