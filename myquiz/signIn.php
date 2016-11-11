@@ -108,8 +108,17 @@ if(isset($_POST["submit"])){
 			$row = mysqli_fetch_row($result);
 
 			$_SESSION['konex-id'] = $row[0];
+
+
+			// IKASLE ETA IRAKASLEEN KONTROLA
+
+			if($email == "web000@ehu.es"){
+				header('Location: reviewingQuizes.php');
+			} else {
+				header('Location: handlingQuizes.php');
+			}
 			
-			header('Location: insertQuestion.php');
+			
 		}
 		else{
 			?>

@@ -13,13 +13,13 @@ if(isset($_SESSION['user-email'])){
   <title>Credits</title>
   <style>
   p#name  {font-size: 250%; text-align: center; font-weight: 100;}
-  html, body  {font-family: 'Roboto', sans-serif; height:100%; margin: 0; padding: 0;}
+  html, body  {font-family: 'Roboto', sans-serif; height:100%; padding-left: 20px;}
   img {border-radius:50px;}
   input {font-size: 100%}
-  #map {height: 100%;}
+  #map {height: 50%; width: 50%;}
   </style>
 </head>
-<body>
+<body hspace="50">
   <div align='center'>
     <img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
   </div>
@@ -33,7 +33,8 @@ if(isset($_SESSION['user-email'])){
     <img width=720 src="http://media.meltybuzz.es/article-2618826-fb-f1437502963/willyrex-vegetta-wigetta-fanpics-relatos.jpg">
   </div>
   <p>User position.</p>
-  <div id="map"></div>
+  <div id="map">
+  </div>
   <script>
     // Note: This example requires that you consent to location sharing when
     // prompted by your browser. If you see the error "The Geolocation service
@@ -42,8 +43,8 @@ if(isset($_SESSION['user-email'])){
 
     function initMap() {
       var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 6
+        center: {lat: 37.245, lng: -115.81448611111111},
+        zoom: 15
       });
       var infoWindow = new google.maps.InfoWindow({map: map});
 
@@ -75,7 +76,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0n6P_OOjq_bUAJ3EGWB42pljvfnyrTFU&signed_in=true&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC03sfngySO2oj9SiKiwS3YfsNPdTLCOzU&signed_in=true&callback=initMap"
 async defer>
 </script>
 </body>

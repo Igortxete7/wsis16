@@ -32,7 +32,7 @@
   }
   </style>
 
-  <script src="functions.js"></script>
+  <script type="text/javascript" src="functions.js"></script>
   <script type="text/javascript">
 
   xhttp = new XMLHttpRequest();
@@ -70,35 +70,41 @@
     xhttp1.onreadystatechange = function(){
       if((xhttp1.readyState==4) && (xhttp1.status==200)){
         var erantzuna = xhttp1.responseText;
-        if(erantzuna =="BALIOZKOA"){
-          document.getElementById("validator2").style.color="green";
-          document.getElementById("Password").style.border="2px solid green";
-          document.getElementById("validator2").innerHTML = "Is a strong password.";
-          document.getElementById("Submit").disabled = false;
-          document.getElementById("Submit").style.backgroundColor = "rgb(19,122,212)";
+        if(document.getElementById("Password").value== "" || document.getElementById("Code").value== "")
+          return false;
+        else{
 
-          document.getElementById("Code").style.border="1px solid #cccccc";
-          document.getElementById("validator3").innerHTML = " ";
+          if(erantzuna =="BALIOZKOA"){
+            document.getElementById("validator2").style.color="green";
+            document.getElementById("Password").style.border="2px solid green";
+            document.getElementById("validator2").innerHTML = "Is a strong password.";
+            document.getElementById("Submit").disabled = false;
+            document.getElementById("Submit").style.backgroundColor = "rgb(19,122,212)";
+
+            document.getElementById("Code").style.border="2px solid green";
+            document.getElementById("validator3").innerHTML = " ";
+            equals();
+          }
+          else if (erantzuna == "BALIOGABEA"){
+            document.getElementById("validator2").style.color="red";
+            document.getElementById("Password").style.border="2px solid red";
+            document.getElementById("validator2").innerHTML = "Is not a strong password.";
+            document.getElementById("Submit").disabled = true;
+            document.getElementById("Submit").style.backgroundColor = "gray";
+
+            document.getElementById("Code").style.border="2px solid green";
+            document.getElementById("validator3").innerHTML = " ";
+          }
+          else {
+            document.getElementById("validator3").style.color="red";
+            document.getElementById("Code").style.border="2px solid red";
+            document.getElementById("Password").style.border="1px solid #cccccc";
+            document.getElementById("validator3").innerHTML = "User with no permissions.";
+            document.getElementById("Submit").disabled = true;
+            document.getElementById("Submit").style.backgroundColor = "gray";
+            document.getElementById("validator2").innerHTML = " ";
+          }
         }
-        else if (erantzuna == "BALIOGABEA"){
-          document.getElementById("validator2").style.color="red";
-          document.getElementById("Password").style.border="2px solid red";
-          document.getElementById("validator2").innerHTML = "Is not a strong password.";
-          document.getElementById("Submit").disabled = true;
-          document.getElementById("Submit").style.backgroundColor = "gray";
-
-          document.getElementById("Code").style.border="1px solid #cccccc";
-          document.getElementById("validator3").innerHTML = " ";
-        }
-        else {
-          document.getElementById("validator3").style.color="red";
-          document.getElementById("Code").style.border="2px solid red";
-          document.getElementById("validator3").innerHTML = "User with no permissions.";
-          document.getElementById("Submit").disabled = true;
-          document.getElementById("Submit").style.backgroundColor = "gray";
-
-        }
-
       }
     }
 
@@ -106,6 +112,30 @@
     xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp1.send("pass=" + document.getElementById("Password").value+"&code=" + document.getElementById("Code").value);
 
+  }
+
+  function equals() {
+
+    if(document.getElementById("Password2").value!=""){
+      if (document.getElementById("Password").value == document.getElementById("Password2").value){
+
+        document.getElementById("validator4").style.color="green";
+        document.getElementById("Password2").style.border="2px solid green";
+        document.getElementById("validator4").innerHTML = "The passwords are equal.";
+        document.getElementById("Submit").disabled = false;
+        document.getElementById("Submit").style.backgroundColor = "rgb(19,122,212)";
+      } else {
+        document.getElementById("validator4").style.color="red";
+        document.getElementById("Password2").style.border="2px solid red";
+        document.getElementById("validator4").innerHTML = "The passwords are NOT equal.";
+        document.getElementById("Submit").disabled = true;
+        document.getElementById("Submit").style.backgroundColor = "gray";
+      }
+    } else {
+      document.getElementById("Password2").style.border="1px solid #cccccc";
+      document.getElementById("validator4").innerHTML = "";
+
+    }
   }
 
   </script>
@@ -140,16 +170,22 @@
       <span id="validator">
       </span><br>
       <p id='space'></p>
+      Code:<font color="red">*</font><br>
+      <input type="text" name="code" id="Code" onchange="validatePass()" required>
+      &nbsp;
+      <span id="validator3">
+      </span><br>
+      <p id='space'></p>
       Password:<font color="red">*</font><br>
       <input type="password" name="password" id="Password" onchange="validatePass()" required>
       &nbsp;
       <span id="validator2">
       </span><br>
       <p id='space'></p>
-      Code:<font color="red">*</font><br>
-      <input type="text" name="code" id="Code" onchange="validatePass()" required>
+      Repeat Password:<font color="red">*</font><br>
+      <input type="password" name="password2" id="Password2" onchange="validatePass()" required>
       &nbsp;
-      <span id="validator3">
+      <span id="validator4">
       </span><br>
       <p id='space'></p>
       Phone number:<font color="red">*</font><br>

@@ -32,7 +32,7 @@ function balioztatu(){
   var bool=false;
   var f=document.getElementById("erregistro");
   var msg="";
-  for(i=0;i<6;i++){
+  for(i=0;i<9;i++){
     if(f.elements[i].value == ""){
       msg +=f.elements[i].id + " is empty!" + "\n";
       bool=true;
