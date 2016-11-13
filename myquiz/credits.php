@@ -1,6 +1,8 @@
 <?php
 session_start();
-include ("securityH.php");
+if($_SESSION['auth'] == "YES"){
+  echo "<p align='right'style='position: absolute; top: 0px; right: 10px;'>Hello, ".$_SESSION['user-firstname']." ".$_SESSION['user-lastname']." | <a href='logOut.php'>Logout</a></p>";
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,12 +36,12 @@ include ("securityH.php");
   <div id="map">
   </div>
   <script>
-    function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 37.245, lng: -115.81448611111111},
-        zoom: 15
-      });
-      var infoWindow = new google.maps.InfoWindow({map: map});
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 37.245, lng: -115.81448611111111},
+      zoom: 15
+    });
+    var infoWindow = new google.maps.InfoWindow({map: map});
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {

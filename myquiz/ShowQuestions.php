@@ -2,7 +2,9 @@
 session_start();
 
 include("dataBase.php");
-include ("securityH.php");
+if($_SESSION['auth'] == "YES"){
+	echo "<p align='right'style='position: absolute; top: 0px; right: 10px;'>Hello, ".$_SESSION['user-firstname']." ".$_SESSION['user-lastname']." | <a href='logOut.php'>Logout</a></p>";
+}
 
 $task = "View questions";
 $date = date ("Y-m-d H:i:sa");

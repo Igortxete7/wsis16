@@ -4,7 +4,8 @@ require_once('lib/nusoap.php');
 require_once('lib/class.wsdlcache.php');
 
 //soap_server motako objektua sortzen dugu 
-$ns="http://localhost/wsis16/myquiz/egiaztatuPasahitzaZerbitzari.php"; //ALDATU BEHAR DA HOSTINGERREN
+$ns="http://localhost/wsis16/myquiz/egiaztatuPasahitzaZerbitzari.php"; 
+//$ns="http://igortxete.hol.es/myquiz/egiaztatuPasahitzaZerbitzari.php";//ALDATU BEHAR DA HOSTINGERREN
 
 //soap_server motako objektua sortzen dugu
 $server = new soap_server;
