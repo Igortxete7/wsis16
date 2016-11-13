@@ -1,8 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['user-email'])){
-  echo "<p align='right'style='position: absolute; top: 0px; right: 10px;'>Hello, ".$_SESSION['user-firstname']." ".$_SESSION['user-lastname']." | <a href='logOut.php'>Logout</a></p>";
-}
+include ("securityH.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,11 +34,6 @@ if(isset($_SESSION['user-email'])){
   <div id="map">
   </div>
   <script>
-    // Note: This example requires that you consent to location sharing when
-    // prompted by your browser. If you see the error "The Geolocation service
-    // failed.", it means you probably did not give permission for the browser to
-    // locate you.
-
     function initMap() {
       var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.245, lng: -115.81448611111111},

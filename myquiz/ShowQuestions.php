@@ -2,14 +2,13 @@
 session_start();
 
 include("dataBase.php");
+include ("securityH.php");
 
 $task = "View questions";
 $date = date ("Y-m-d H:i:sa");
 $ip = $_SERVER['REMOTE_ADDR'];
 
 if(isset($_SESSION['user-email'])){
-	echo "<p align='right'style='position: absolute; top: 0px; right: 10px;'>Hello, ".$_SESSION['user-firstname']." ".$_SESSION['user-lastname']." | <a href='logOut.php'>Logout</a></p>";
-
 	$konex = $_SESSION['konex-id'];
 	$email = $_SESSION['user-email'];
 }

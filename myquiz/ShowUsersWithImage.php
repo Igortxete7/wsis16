@@ -1,8 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['user-email'])){
-	echo "<p align='right'style='position: absolute; top: 0px; right: 10px;'>Hello, ".$_SESSION['user-firstname']." ".$_SESSION['user-lastname']." | <a href='logOut.php'>Logout</a></p>";
-}
+include ("securityH.php");
 ?>
 
 <html>

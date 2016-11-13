@@ -1,8 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['user-email'])){
-	die("ERROR: you are logged in already.");
-}
+include ("securityH.php");
 ?>
 <html>
 <head>
@@ -94,6 +92,7 @@ if(isset($_POST["submit"])){
 			$_SESSION['user-email'] = $email;
 			$_SESSION['user-firstname'] = $row['First Name'];
 			$_SESSION['user-lastname'] =  $row['Last Names'];
+			$_SESSION['auth'] = "YES";
 
 			$date = date ("Y-m-d H:i:sa");
 			$sql2 = "INSERT INTO Konexioak (User,Data)
