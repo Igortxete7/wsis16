@@ -199,7 +199,59 @@ function equals() {
   }
 }
 
-//OTHER FUNCTIONS//
+//SEND A COMMENT FUNCTIONS//
+
+function desgaitu(){
+
+  if(document.getElementById("email").value==""){
+    document.getElementById("public").disabled = true;
+    document.getElementById("testua").style.color = "gray";
+    document.getElementById("public").checked = false;
+
+  } else {
+    document.getElementById("public").disabled = false;
+    document.getElementById("testua").style.color = "black";
+  }
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++ ) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function changeColor(){
+  var text =  document.getElementById("text");
+  text.style.border = "1px solid " + getRandomColor();
+}
+
+// SHOW USERS FUNCTIONS//
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById('myImg');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+
+
 
 
 

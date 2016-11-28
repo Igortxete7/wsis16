@@ -8,9 +8,24 @@ session_start();
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script src="js/myFunctions.js" type="text/javascript"></script>
+	<style type="text/css">
+	.fixed {
+		position: fixed;
+		top: 25;
+		right: 25;
+	}
+
+	.centerFix {
+		position: fixed;
+		left: 50%;
+		top: 20%;
+		transform: translate(-50%, -20%);
+	}
+	</style>
 </head>
 
-<body hspace="50">
+<body>
 	<nav class="navbar navbar-inverse" style="border-radius:0px">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -84,36 +99,72 @@ session_start();
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<form id="iruzkina">
+				<p align="center">Enter your credentials before sending the comment.</p>
+				<form id="iruzkina" action="sendComment.php" method="post">
 					<div class="form-group">
 						<input type="text" name="izena" id="izena" class="form-control" placeholder="Enter your name" required autofocus>
 					</div>
+					<div class="form-group">
+						<input type="email" name="email" id="email" class="form-control" placeholder="Enter your mail" onchange="desgaitu()">
+					</div>
+					<div class="form-group">
+						<label id="testua" style="color:gray"><input type="checkbox" name="public" id="public" disabled="disabled"> Make my email public</label>
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" rows="5" id="text" name="text" placeholder="Write your comment" required onmouseover="changeColor()"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit"> Send </button>
+					</div>
 				</form>
-
 			</div>
 		</div>
+		<br><br><br><br><br><br>
 	</div>
-				<div align='center'>
-					<br>
-					<p id='sur'>Sartu zure datuak iruzkina gehitu baino lehen.</p>
-					<div id="container" name="container">
-					</div>
-					
-						<input type="text" id="izena" name="izena" size=40 placeholder="Izena" required onchange="checkName()" autofocus><br>
-						<p id='space'></p>
-						<input type="email" id="email" size=40 placeholder="e-Mail" onchange="desgaitu()"><br>
-						<p id='space'></p>
-						<input type="checkbox" id="public" disabled="disabled"> <span id="testua">Erakutsi nire e-maila</span><br>
-						<p id='space'></p>
-						<textarea rows="5" cols="38" id="text" placeholder="Iruzkina" required onmouseover="changeColor()"></textarea><br>
-						<p id='space'></p>
-						<button class="button button2" id='hover' size=40 onclick="return balioztatu()"> Bidali </button>
-					</form>
-					<div id="frame">
-					</div>
-					<br>
-					<br>
-				</div>
-			</div>
-		</body>
-		</html>
+</body>
+</html>
+<?php
+
+if(isset($_POST["submit"])){
+
+	include("dataBase.php");
+
+	$izena = $_POST['izena'];
+	$mail = $_POST['email'];
+	$iruzkina =$_POST['text'];
+
+	if( empty($izena) || empty($iruzkina) ){
+		?>
+		<div class="alert alert-danger alert-dismissable fade in centerFix">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong align="center">You need to fill name and comment fields.</strong>
+		</div>
+		<?php
+	}
+	else{
+
+		//GALDERAK TAULARA GEHITU
+
+		if(isset($_POST['public'])){
+			$sql = "INSERT INTO Kritika
+			VALUES ('$izena','$mail','$iruzkina')";
+		}else{
+			$sql = "INSERT INTO Kritika (Izena, Kritika)
+			VALUES ('$izena','$iruzkina')";
+		}
+
+		$ema=mysqli_query($connect, $sql);
+
+		if(!$ema)
+			die('ERROR in query execution: ' . mysqli_error($connect));
+
+		?>
+		<div class="alert alert-success alert-dismissable fade in centerFix">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong align="center">The comment was successfully sent.</strong>
+		</div>
+		<?php
+		mysqli_close($connect);
+	}
+}
+?>
