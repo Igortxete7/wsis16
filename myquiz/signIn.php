@@ -1,62 +1,151 @@
 <?php
 session_start();
+ob_start();
 ?>
 <html>
 <head>
 	<meta charset="utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
 	<title>Sign in</title>
+  	<script src="js/jquery-3.1.1.min.js"></script>
+  	<script src="js/bootstrap.min.js"></script>
+  	<link href="css/bootstrap.min.css" rel="stylesheet">
+  	<script src="js/myFunctions.js" type="text/javascript"></script>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<style>
-	p#name  {font-size: 250%; text-align: center; font-weight: 100;}
-	p#sur	{text-align: center;}
-	input 	{font-size:100%;}
-	p#space	{font-size: 10%;}
-	body	{font-family: 'Roboto', sans-serif;}
-	button 	{width:400px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
-	div#container {color: red;}
-
-	.button {
-		-webkit-transition-duration: 0.4s; /* Safari */
-		transition-duration: 0.4s;
+	div#container {
+		color: red;
 	}
 
-	.button2:hover {
-		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-		border:solid;
-		border-color:rgb(8,79,138);
+	.btn-fb{
+		color: #fff;
+		background-color:#3b5998;
 	}
-
+	.btn-fb:hover{
+		color: #fff;
+		background-color:#496ebc 
+	}
+	.btn-tw{
+		color: #fff;
+		background-color:#55acee;
+	}
+	.btn-tw:hover{
+		color: #fff;
+		background-color:#59b5fa;
+	}
 	</style>
-
-	<script src="functions.js"></script>
-
 </head>
 
 <body hspace="50">
+	<nav class="navbar navbar-inverse" style="border-radius:0px">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="layout.php"><span class="glyphicon glyphicon-lamp"></span> Quizzes</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Questions <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
+							<?php
+							if(isset($_SESSION["auth"])){
+								?>
+								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
+								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+								<?php
+								if($_SESSION['user-email'] == "web000@ehu.es"){
+									?>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<?php
+								}
+							}
 
-	<div align='center'>
-		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg" >
-		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;" method="post">
-			<input type="submit" value="Home">
-		</form>
-		<p id='name'> Sign In </p>
-		<p id='sur'>Use your work or school, or personal Google account.</p>
-		<div id="container" name="container">
+							?>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+							<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
+						</ul>
+					</li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
+					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<?php
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span><?php echo " ". $_SESSION["user-firstname"]." ". $_SESSION["user-lastname"];?><span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Configuration</a></li>
+								<li><a href="changePass.php"><span class="glyphicon glyphicon-transfer"></span> Change Password</a></li>
+								<li><a href="logOut.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+							</ul>
+						</li>
+						<?php
+					}else{
+						?>
+						<li class="active"><a href='signIn.php'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
+						<li><a href='signUp.php'><span class='glyphicon glyphicon-user'></span> Sign Up</a></li>
+						<?php
+					}
+					?>
+				</ul>
+			</div>
 		</div>
-		<form id="login" name="login" method="post" action="signIn.php">
-			<input type="email" name="user" id="user" size=40 placeholder="Email" required onfocus="del()">
-			<p id='space'></p>
-			<input type="password" name="pass" id="Pass" size=40 placeholder="Password" required><br>
-			<p id='space'></p>
-			<input type="checkbox"> Keep me signed in <br>
-			<p id='space'></p>
-			<button class="button button2" id='hover' type="submit" value="Submit" name="submit" size=40 onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')"> Sign in </button>
-			<br>
-			<br>
-		</form>
-		<p>No account? <a href='signUp.html'>Create one!</a></p>
+	</nav>
+	<div class="container">
+		<div class="jumbotron text-center">
+			<h1>Login</h1>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<p align="center">Use your work or school, or personal Google account.</p>
+				<div class="social-buttons" align="center">
+					<a href="#" class="btn btn-fb"> <i class="fa fa-facebook fa-lg" style="vertical-align: middle; padding:3px;"></i> Login with Facebook</a>
+					<a href="#" class="btn btn-tw"><i class="fa fa-twitter fa-lg" style="vertical-align: middle; padding:3px;"></i> Login with Twitter</a>
+				</div>
+				<br>
+				<div id="container" name="container" align="center">
+				</div>
+				<form id="login" name="login" method="post" action="signIn.php">
+					<div class="form-group">
+						<label for="email">Email:</label>
+						<input type="email" name="user" id="user" class="form-control" placeholder="Enter email" required>
+					</div>
+					<div class="form-group">
+						<label for="pwd">Password:</label>
+						<input type="password" class="form-control" id="Pass" name="pass" placeholder="Enter password" required>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox"> Remember me</label>
+					</div>
+					<button class="btn btn-primary btn-block" size=40 type="submit" value="Submit" name="submit">Login</button>
+					<br>
+					<div class="col-sm-6">
+						<div class="row">
+							<span>No account? <a href='signUp.php'>Create one!</a></span>
+						</div>
+					</div>
+					<div class="col-sm-6" align="right">
+						<div class="row">
+							<span>Forgot your password? <a href='#'>Click here</a></span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<br><br><br>
 	</div>
-
 </body>
 </html>
 
@@ -66,6 +155,7 @@ if(isset($_POST["submit"])){
 
 	$email = $_POST['user'];
 	$password = $_POST['pass'];
+	$enct = sha1($password);
 
 	if(empty($email) || empty($password)){
 		?>
@@ -82,7 +172,7 @@ if(isset($_POST["submit"])){
 
 		include("dataBase.php");
 
-		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$password'";
+		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$enct'";
 		$query = mysqli_query($connect,$sql);
 		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 		$count = mysqli_num_rows($query);
@@ -101,22 +191,21 @@ if(isset($_POST["submit"])){
 			if(!$ema2)
 				die('ERROR in insert konnexion: ' . mysqli_error($connect));
 
-			$sql3 = "SELECT MAX(ID) FROM Konexioak WHERE eMail = '$email'"; //OJO QUE LO HE CAMBIADO
+			$sql3 = "SELECT MAX(ID) FROM Konexioak WHERE User = '$email'"; //OJO QUE LO HE CAMBIADO
 			$result = mysqli_query($connect,$sql3);
+
+			if(!$result)
+				die('ERROR in insert konnexion: ' . mysqli_error($connect));
+
 			$row = mysqli_fetch_row($result);
 
 			$_SESSION['konex-id'] = $row[0];
 
-
+			mysqli_free_result($query);
+			mysqli_close($connect);
 			// IKASLE ETA IRAKASLEEN KONTROLA
 
-			if($email == "web000@ehu.es"){
-				header('Location: reviewingQuizes.php');
-			} else {
-				header('Location: handlingQuizes.php');
-			}
-			
-			
+			header('Location: layout.php');			
 		}
 		else{
 			?>
@@ -128,20 +217,8 @@ if(isset($_POST["submit"])){
 
 			</script>
 			<?php
-			
 		}
-		mysqli_free_result($query);
-		mysqli_close($connect);
 	}
 }
-
-
+ob_end_flush();
 ?>
-
-
-
-
-
-
-
-

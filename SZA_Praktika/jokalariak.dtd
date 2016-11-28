@@ -1,0 +1,11 @@
+<!DOCTYPE JOKALARIAK [
+<!ELEMENT jokalariak (jokalaria)*>
+<!ELEMENT jokalaria (izena, abizenak, mail, pasahitza, kredituTxartela, dirua, kredituak)>
+<!ELEMENT izena (#PCDATA)>
+<!ELEMENT abizenak (#PCDATA)>
+<!ELEMENT mail (#PCDATA)>
+<!ELEMENT pasahitza (#PCDATA)>
+<!ELEMENT kredituTxartela (#PCDATA)>
+<!ELEMENT dirua (#PCDATA)>
+<!ELEMENT kredituak (#PCDATA)>
+]>

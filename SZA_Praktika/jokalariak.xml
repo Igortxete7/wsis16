@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<jokalariak>
+	<jokalaria>
+		<izena>Igor</izena>
+		<abizenak>Sanchez Mata</abizenak>
+		<mail>Igortxete7@gmail.com</mail>
+		<pasahitza>123456</pasahitza>
+		<kredituTxartela>2100-725-001-3456</kredituTxartela>
+		<dirua>95</dirua>
+		<kredituak>12</kredituak>
+	</jokalaria>
+	<jokalaria>
+		<izena>Pack</izena>
+		<abizenak>Jemez</abizenak>
+		<mail>pjemez@gmail.com</mail>
+		<pasahitza>123411</pasahitza>
+		<kredituTxartela>1111-1111-1111</kredituTxartela>
+		<dirua>0</dirua>
+		<kredituak>0</kredituak>
+	</jokalaria>
+</jokalariak>

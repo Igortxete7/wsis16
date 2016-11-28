@@ -1,0 +1,74 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
+	<title>Iruzkina gehitu</title>
+	<style>
+	p#name  {font-size: 250%; text-align: center; font-weight: 100;}
+	p#sur	{text-align: center;}
+	input, textarea	{font-size:100%;}
+	p#space	{font-size: 10%;}
+	body	{font-family: 'Roboto', sans-serif;}
+	button 	{width:400px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
+	div#container {color: red;}
+	span#testua {color: gray;}
+	textarea {border: 2px solid black;}
+	div#image {position:absolute; right: 50px; top: 25px;}
+	iframe{position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+
+	.button {
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+	}
+
+	.button2:hover {
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+		border:solid;
+		border-color:rgb(8,79,138);
+	}
+
+	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script src="functions.js"></script>
+
+</head>
+
+<body hspace="50" onload="refresh()" id="gradient">
+	<div align='center'>
+		<div id="image">
+			<select name="generation" id="generation">
+				<option value="6">All Generations</option>
+				<option value="1">First Generation</option>
+				<option value="2">Second Generation</option>
+				<option value="3">Third Generation</option>
+				<option value="4">Fourth Generation</option>
+				<option value="5">Fifth Generation</option>
+				
+			</select>
+			<br>
+			<br>
+			<img align="center" id="pic" height=100 width=100>
+		</div>
+		<br>
+		<p id='name'> Iruzkina gehitu </p>
+		<p id='sur'>Sartu zure datuak iruzkina gehitu baino lehen.</p>
+		<div id="container" name="container">
+		</div>
+		<form id="iruzkina">
+			<input type="text" id="izena" name="izena" size=40 placeholder="Izena" required onchange="checkName()" autofocus><br>
+			<p id='space'></p>
+			<input type="email" id="email" size=40 placeholder="e-Mail" onchange="desgaitu()"><br>
+			<p id='space'></p>
+			<input type="checkbox" id="public" disabled="disabled"> <span id="testua">Erakutsi nire e-maila</span><br>
+			<p id='space'></p>
+			<textarea rows="5" cols="38" id="text" placeholder="Iruzkina" required onmouseover="changeColor()"></textarea><br>
+			<p id='space'></p>
+			<button class="button button2" id='hover' size=40 onclick="return balioztatu()"> Bidali </button>
+		</form>
+		<div id="frame">
+		</div>
+		<br>
+		<br>
+	</div>
+</body>
+</html>

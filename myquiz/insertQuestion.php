@@ -2,89 +2,132 @@
 session_start();
 include ("securityH.php");
 ?>
-
 <html>
 <head>
 	<meta charset="utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
 	<title>Insert Question</title>
-	<style>
-	p#name  {font-size: 250%; text-align: center; font-weight: 100;}
-	p#sur	{text-align: center;}
-	input 	{font-size:100%;}
-	p#space	{font-size: 10%; }
-	body	{font-family: 'Roboto', sans-serif;}
-	button 	{width:400px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
-
-	.button {
-		-webkit-transition-duration: 0.4s; /* Safari */
-		transition-duration: 0.4s;
-	}
-
-	.button2:hover {
-		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-		border:solid;
-		border-color:rgb(8,79,138);
-	}
-
-	</style>
-
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script src="functions.js"></script>
+	<style type="text/css">
+	.centerFix {
+		position: fixed;
+		left: 50%;
+		top: 20%;
+		transform: translate(-50%, -20%);
+	}
+	</style>
 
 </head>
 
-<body hspace="50">
-	<div align='center'>
-		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
-		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;" method="post">
-			<input type="submit" value="Home">
-		</form>
-		<form action="showQuestions.php" style="position: absolute; top: 50px; left: 25px;" method="post">
-			<input type="submit" value="Show questions">
-		</form>
-		<p id='name'> Insert Question </p>
-		<p id='sur'>Insert any kind of question in the first field and the answer below. <br> If you want you can specify the difficulty.</p>
-		<br>
-		<form id="question" name="question" method="post" action="insertQuestion.php">
-			<table border=0 align="center">
-				<tr>
-					<td>Question: </td>
-					<td><input type="text" name="question" id="Question" size=40 placeholder="Question" onfocus="del()"></td>
-					<td><p id='space'></p></td>
-				</tr>
-				<tr>
-					<td>Answer: </td>
-					<td><input type="text" name="answer" id="Answer" size=40 placeholder="Answer"></td>
-					<td><p id='space'></p></td>
-				</tr>
-				<tr>
-					<td><p id='space'></p></td>
-				</tr>
-				<tr>
-					<td>Subject: </td>
-					<td><input type="text" name="subject" id="subject" size=40 placeholder="Subject"></td>
-					<td><p id='space'></p></td>
-				</tr>
-				<tr>
-					<td>Difficulty:</td>
-					<td><table>
-						<tr>
-							<td> 1<input type="radio" name="diff" value="1"></td>
-							<td> 2<input type="radio" name="diff" value="2"></td>
-							<td> 3<input type="radio" name="diff" value="3"></td>
-							<td> 4<input type="radio" name="diff" value="4"></td>
-							<td> 5<input type="radio" name="diff" value="5"></td>
-						</tr>
-					</table></td>
-					<td><p id='space'></p></td>
-				</tr>
-			</table>
-			<br>
-			<br>
-			<div id='container'>
+<body>
+	<nav class="navbar navbar-inverse" style="border-radius:0px">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="layout.php"><span class="glyphicon glyphicon-lamp"></span> Quizzes</a>
 			</div>
-			<button class="button button2" id='hover' type="submit" value="Submit" name="submit" size=40 onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')"> Add question </button>
-		</form>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+					<li class="dropdown active">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Questions <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
+							<?php
+							if(isset($_SESSION["auth"])){
+								?>
+								<li class="active"><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
+								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+								<?php
+								if($_SESSION['user-email'] == "web000@ehu.es"){
+									?>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<?php
+								}
+							}
+							
+							?>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+							<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
+						</ul>
+					</li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
+					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<?php
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span><?php echo " ". $_SESSION["user-firstname"]." ". $_SESSION["user-lastname"];?><span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Configuration</a></li>
+								<li><a href="changePass.php"><span class="glyphicon glyphicon-transfer"></span> Change Password</a></li>
+								<li><a href="logOut.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+							</ul>
+						</li>
+						<?php
+					}else{
+						?>
+						<li><a href='signIn.php'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
+						<li><a href='signUp.php'><span class='glyphicon glyphicon-user'></span> Sign Up</a></li>
+						<?php
+					}
+					?>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="jumbotron text-center">
+			<h1>Insert Question</h1>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<p align="center">Insert any kind of question in the first field and the answer below. <br> If you want you can specify the difficulty.</p>
+				<br>
+				<form id="question" name="question" method="post" action="insertQuestion.php">
+					<div class="form-group form-inline">
+						<label for="question" style="width:12%">Question:</label>
+						<input type="text" style="width:87%" name="question" id="Question" class="form-control" placeholder="Enter your question" required onfocus="del()">
+					</div>
+					<div class="form-group form-inline">
+						<label for="answer" style="width:12%">Answer:</label>
+						<input type="text" style="width:87%" name="answer" id="Answer" class="form-control" placeholder="Enter your answer" required>
+					</div>
+					<br>
+					<div class="form-group form-inline">
+						<label for="subject" style="width:12%">Subject:</label>
+						<input type="text" style="width:87%" name="subject" id="subject" class="form-control" placeholder="Enter the subject" required>
+					</div>
+					<div class="form-group form-inline" >
+						<label for="difficulty" style="width:12%">Difficulty:</label>
+						<select class="form-control" style="width:87%" name="diff">
+							<option value=""></option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+					<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit">Add question</button>
+				</form>
+				<br><br><br><br><br>
+			</div>
+
+		</div>
 	</div>
 </body>
 </html>
@@ -101,14 +144,10 @@ if(isset($_POST["submit"])){
 
 	if(empty($quest) || empty($ans)){
 		?>
-		<script>
-		var container = document.getElementById("container");
-		container.appendChild(document.createTextNode("You need to fill question and answer fields."));
-		container.style.color = "red";
-		container.appendChild(document.createElement("br"));
-		container.appendChild(document.createElement("br"));
-
-		</script>
+		<div class="alert alert-danger alert-dismissable fade in centerFix">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong align="center">You need to fill question and answer fields.</strong>
+		</div>
 		<?php
 
 	}
@@ -137,7 +176,6 @@ if(isset($_POST["submit"])){
 			die('ERROR in query execution: ' . mysqli_error($connect));
 
 
-
 		//EKINTZAK TAULARA GEHITU
 
 		$konex = $_SESSION['konex-id'];
@@ -153,47 +191,13 @@ if(isset($_POST["submit"])){
 
 		if(!$ema2)
 			die('ERROR in query execution: ' . mysqli_error($connect));
-
-
-
-		//XML FITXATEGIRA GEHITU
-
-		$file = 'galderak.xml';
-		$xml = simplexml_load_file($file);
-
-		$assessmentItem = $xml->addChild('assessmentItem');
-		$assessmentItem->addAttribute('complexity', $diff);
-		$assessmentItem->addAttribute('subject', $subj);
-
-		$itemBody = $assessmentItem->addChild('itemBody');
-		$itemBody->addChild('p', $quest);
-
-		$correctResponse = $assessmentItem->addChild('correctResponse');
-		$correctResponse->addChild('value',$ans);
-
-		$xml->asXML($file);
-
-		
 		?>
-		<script>
-		var container = document.getElementById("container");
-		container.appendChild(document.createTextNode("The question was successfully created."));
-		container.style.color = "green";
-		container.appendChild(document.createElement("br"));
-		container.appendChild(document.createElement("br"));
-
-		</script>
+		<div class="alert alert-success alert-dismissable fade in centerFix">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong align="center">The question was successfully created.</strong>
+		</div>
 		<?php
 		mysqli_close($connect);
 	}
-
 }
-
-
 ?>
-
-
-
-
-
-
