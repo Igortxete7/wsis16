@@ -228,31 +228,58 @@ function changeColor(){
   text.style.border = "1px solid " + getRandomColor();
 }
 
-// SHOW USERS FUNCTIONS//
 
-// Get the modal
-var modal = document.getElementById('myModal');
+// CHANGE PASSWORD FUNCTIONS//
 
-// Get the image and insert it inside the modal - use its "alt" text as a caption
-var img = document.getElementById('myImg');
-var modalImg = document.getElementById("img01");
-var captionText = document.getElementById("caption");
-img.onclick = function(){
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    captionText.innerHTML = this.alt;
+function passEquals() {
+  if(document.getElementById("pass2").value!=""){
+    if(document.getElementById("pass").value.length <6){
+      alert("Password is too short!");
+      document.getElementById("submit").disabled = true;
+      return false;
+    }
+    if (document.getElementById("pass").value == document.getElementById("pass2").value){
+      removeGlyph("glyphicon");
+      document.getElementById("pass2Class").className = "form-group has-success has-feedback";
+      var span = document.createElement("span");
+      span.className = "glyphicon glyphicon-ok form-control-feedback";
+      span.id = "glyphicon";
+      $('#pass2Class').append(span);
+      document.getElementById("container").innerHTML = "";
+      document.getElementById("submit").disabled = false;
+      return true;
+    } else {
+      removeGlyph("glyphicon");
+      document.getElementById("pass2Class").className = "form-group has-error has-feedback";
+      var span = document.createElement("span");
+      span.className = "glyphicon glyphicon-remove form-control-feedback";
+      span.id = "glyphicon";
+      $('#pass2Class').append(span);
+      document.getElementById("container").innerHTML = "Passwords are NOT equal.";
+      document.getElementById("container").style.color="red";
+      document.getElementById("submit").disabled = true;
+      return false;
+    }
+  } else {
+    removeGlyph("glyphicon");
+    document.getElementById("container").innerHTML = "";
+    return true;
+  }
 }
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() { 
-  modal.style.display = "none";
-}
+// RESET PASSWORD FUNCTIONS //
 
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-
-
-
+  for( var i=0; i < 14; i++ )
+    if(i==4 || i== 9){
+      text+="-";
+    }else{
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
 

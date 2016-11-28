@@ -1,11 +1,10 @@
 <?php
 session_start();
-include ("securityH.php");
 ?>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Change Password</title>
+	<title>Reset Password</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -89,25 +88,18 @@ include ("securityH.php");
 	</nav>
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h1>Change Password</h1>
+			<h1>Reset Password</h1>
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<p align="center">Introduce your old and new passwords.</p>
-				<form id="login" name="login" method="post" action="changePass.php" onsubmit="return passEquals()">
+				<p align="center">Introduce your email and we will send you the new password.</p>
+				<form id="reset" name="reset" method="post" action="resetPass.php">
 					<div class="form-group">
-						<input type="password" name="old" id="old" class="form-control" placeholder="Enter your old password" required>
+						<label for="email">Email:</label>
+						<input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
 					</div>
-					<br>
-					<div class="form-group">
-						<input type="password" name="pass" id="pass" class="form-control" placeholder="Enter your new password" required>
-					</div>
-					<label id="container"></label>
-					<div class="form-group" id="pass2Class">
-						<input type="password" name="pass2" id="pass2" class="form-control" placeholder="Repeat your new password" required onchange="passEquals()">
-					</div>
-					
-					<button class="btn btn-primary btn-block" type="submit" value="Submit" id="submit" name="submit">Change</button>
+					<input style="display: none" type="text" name="newPass" id="newPass">				
+					<button class="btn btn-primary btn-block" type="submit" value="Submit" id="submit" name="submit" onclick="document.getElementById('newPass').value = makeid();">Reset password</button>
 				</form>
 			</div>
 		</div>
@@ -116,53 +108,33 @@ include ("securityH.php");
 </html>
 
 <?php
+if(isset($_POST['submit'])){
 
-if(isset($_POST["submit"])){
+	$to = $_POST['email'];
+	$subject = "New password confirmation";
 
-	$old = $_POST['old'];
-	$pass = $_POST['pass'];
-	$pass2 = $_POST['pass2'];
-	$email = $_SESSION['user-email'];
+	$message = "
+	<html>
+	<head>
+	<title>New password</title>
+	</head>
+	<body>
+	<p>Your password has been reset. Here is your new password. </p>
+	<br>
+	<p>".$_POST['newPass']." </p>
+	<br>
+	<br>
+	</body>
+	</html>
+	";
 
-	$encOld = sha1($old);
-	$encNew = sha1($pass);
+	// Always set content-type when sending HTML email
+	$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-	if(empty($old) || empty($pass2) || empty($pass)){
-		?>
-		<div class="alert alert-danger alert-dismissable fade in centerFix">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-			<strong align="center">You need to fill all boxes.</strong>
-		</div>
-		<?php
-	}
-	else{
+	// More headers
+	$headers .= 'From: <Quizzes@ehu.es>' . "\r\n";
 
-		include("dataBase.php");
-
-		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$encOld'";
-		$query = mysqli_query($connect,$sql);
-		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-		$count = mysqli_num_rows($query);
-
-		if($count == 1){
-
-			$sql2 = "UPDATE Erabiltzaile
-			SET Password = '$encNew'
-			WHERE eMail = '$email'";
-			$ema2=mysqli_query($connect, $sql2);
-
-			if(!$ema2)
-				die('ERROR in insert konnexion: ' . mysqli_error($connect));	
-
-			?>
-			<div class="alert alert-success alert-dismissable fade in centerFix">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-				<strong align="center">Password successfully changed!</strong>
-			</div>
-			<?php
-		}
-		mysqli_free_result($query);
-		mysqli_close($connect);
-	}
+	mail($to,$subject,$message,$headers);
 }
 ?>

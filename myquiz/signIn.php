@@ -6,16 +6,12 @@ ob_start();
 <head>
 	<meta charset="utf-8">
 	<title>Sign in</title>
-  	<script src="js/jquery-3.1.1.min.js"></script>
-  	<script src="js/bootstrap.min.js"></script>
-  	<link href="css/bootstrap.min.css" rel="stylesheet">
-  	<script src="js/myFunctions.js" type="text/javascript"></script>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script src="js/myFunctions.js" type="text/javascript"></script>
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<style>
-	div#container {
-		color: red;
-	}
-
 	.btn-fb{
 		color: #fff;
 		background-color:#3b5998;
@@ -31,6 +27,12 @@ ob_start();
 	.btn-tw:hover{
 		color: #fff;
 		background-color:#59b5fa;
+	}
+	.centerFix {
+		position: fixed;
+		left: 50%;
+		top: 20%;
+		transform: translate(-50%, -20%);
 	}
 	</style>
 </head>
@@ -115,8 +117,6 @@ ob_start();
 					<a href="#" class="btn btn-tw"><i class="fa fa-twitter fa-lg" style="vertical-align: middle; padding:3px;"></i> Login with Twitter</a>
 				</div>
 				<br>
-				<div id="container" name="container" align="center">
-				</div>
 				<form id="login" name="login" method="post" action="signIn.php">
 					<div class="form-group">
 						<label for="email">Email:</label>
@@ -159,13 +159,10 @@ if(isset($_POST["submit"])){
 
 	if(empty($email) || empty($password)){
 		?>
-		<script>
-		var container = document.getElementById("container");
-		container.appendChild(document.createTextNode("You need to introduce your credentials."));
-		container.appendChild(document.createElement("br"));
-		container.appendChild(document.createElement("br"));
-
-		</script>
+		<div class="alert alert-danger alert-dismissable fade in centerFix">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong align="center">You need to introduce your credentials.</strong>
+		</div>
 		<?php
 	}
 	else{
@@ -209,13 +206,10 @@ if(isset($_POST["submit"])){
 		}
 		else{
 			?>
-			<script>
-			var container = document.getElementById("container");
-			container.appendChild(document.createTextNode("Your account or password is incorrect."));
-			container.appendChild(document.createElement("br"));
-			container.appendChild(document.createElement("br"));
-
-			</script>
+			<div class="alert alert-danger alert-dismissable fade in centerFix">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+				<strong align="center">Your account or password is incorrect.</strong>
+			</div>
 			<?php
 		}
 	}
