@@ -29,12 +29,6 @@ session_start();
 	</style>
 
 	<script src="functions.js"></script>
-	<script type="text/javascript">
-	var saiakerak = 0;
-	function blokeatu(){
-		
-	}
-	</script>
 
 </head>
 
@@ -42,7 +36,7 @@ session_start();
 
 	<div align='center'>
 		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg" >
-		<form action="layout.php" style="position: absolute; top: 25px; left: 25px;" method="post">
+		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;" method="post">
 			<input type="submit" value="Home">
 		</form>
 		<p id='name'> Sign In </p>
@@ -72,7 +66,6 @@ if(isset($_POST["submit"])){
 
 	$email = $_POST['user'];
 	$password = $_POST['pass'];
-	$enct = sha1($password);
 
 	if(empty($email) || empty($password)){
 		?>
@@ -89,7 +82,7 @@ if(isset($_POST["submit"])){
 
 		include("dataBase.php");
 
-		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$enct'";
+		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$password'";
 		$query = mysqli_query($connect,$sql);
 		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 		$count = mysqli_num_rows($query);

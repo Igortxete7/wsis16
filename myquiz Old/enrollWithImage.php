@@ -59,8 +59,7 @@ if (!filter_var($email, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=
 	die("$email is not a valid email address!");
 }
 
-$enct = sha1($password); //KRIPTOGRAFIATUTA
-$sql="INSERT INTO Erabiltzaile VALUES ('$name', '$surname', '$email', '$enct', '$phonenumber', '$var1', '$_POST[text]', '$image')";
+$sql="INSERT INTO Erabiltzaile VALUES ('$name', '$surname', '$email', '$password', '$phonenumber', '$var1', '$_POST[text]', '$image')";
 
 $ema=mysqli_query($connect, $sql);
 if(!$ema){

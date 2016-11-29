@@ -24,4 +24,4 @@
 			<value>Bai</value>
 		</correctResponse>
 	</assessmentItem>
-<assessmentItem complexity="1" subject="very easy questions"><itemBody><p>itsaso es tonta?</p></itemBody><correctResponse><value>Obvio</value></correctResponse></assessmentItem><assessmentItem complexity="3" subject="jeje"><itemBody><p>hola</p></itemBody><correctResponse><value>adios</value></correctResponse></assessmentItem></assessmentItems>
+<assessmentItem complexity="1" subject="very easy questions"><itemBody><p>itsaso es tonta?</p></itemBody><correctResponse><value>Obvio</value></correctResponse></assessmentItem><assessmentItem complexity="3" subject="jeje"><itemBody><p>hola</p></itemBody><correctResponse><value>adios</value></correctResponse></assessmentItem><assessmentItem complexity="3" subject="Egunerokoa"><itemBody><p>Kaixo</p></itemBody><correctResponse><value>Agur</value></correctResponse></assessmentItem></assessmentItems>

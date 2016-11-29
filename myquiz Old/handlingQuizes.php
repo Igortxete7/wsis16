@@ -82,7 +82,7 @@ include ("securityH.php");
 	<div align='center'>
 		<img src="https://auth.gfx.ms/16.000.26614.00/AppCentipede/AppCentipede_Microsoft.svg">
 		<p id='name'> Handling Quizes </p>
-		<form action="layout.php" style="position: absolute; top: 25px; left: 25px;" method="post">
+		<form action="layout.html" style="position: absolute; top: 25px; left: 25px;" method="post">
 			<input type="submit" value="Home">
 		</form>
 		<div align="center" id="info">

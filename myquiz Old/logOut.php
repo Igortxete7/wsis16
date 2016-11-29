@@ -3,10 +3,10 @@
   if(isset($_SESSION['user-email'])){
     session_unset();
     session_destroy();
-    header("Location: layout.php");
+    header("Location: layout.html");
     exit;
   } else{
-    header("Location: layout.php");
+    header("Location: layout.html");
     exit;
   }
 ?>
