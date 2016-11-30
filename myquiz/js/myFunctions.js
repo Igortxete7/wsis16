@@ -267,19 +267,47 @@ function passEquals() {
   }
 }
 
+xhttp2 = new XMLHttpRequest();
 
-// RESET PASSWORD FUNCTIONS //
+function validateChangePass(){
 
-function makeid() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for( var i=0; i < 14; i++ )
-    if(i==4 || i== 9){
-      text+="-";
-    }else{
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  xhttp2.onreadystatechange = function(){
+    if((xhttp2.readyState==4) && (xhttp2.status==200)){
+      var erantzuna = xhttp2.responseText;
+      if(document.getElementById("pass").value== ""){
+        removeGlyph("glyphicon2");
+        document.getElementById("passClass").className = "form-group";
+        document.getElementById("container").innerHTML = "";
+        document.getElementById("submit").disabled = false;
+      }else{
+        if(erantzuna =="BALIOZKOA"){
+          removeGlyph("glyphicon2");
+          document.getElementById("passClass").className = "form-group has-success has-feedback";
+          var span = document.createElement("span");
+          span.className = "glyphicon glyphicon-ok form-control-feedback";
+          span.id = "glyphicon2";
+          $('#passClass').append(span);
+          document.getElementById("container").innerHTML = "";
+          document.getElementById("submit").disabled = false;
+        }
+        else if (erantzuna == "BALIOGABEA"){
+          removeGlyph("glyphicon2");
+          document.getElementById("passClass").className = "form-group has-error has-feedback";
+          var span = document.createElement("span");
+          span.className = "glyphicon glyphicon-remove form-control-feedback";
+          span.id = "glyphicon2";
+          $('#passClass').append(span);
+          document.getElementById("container").innerHTML = "Weak password.";
+          document.getElementById("container").style.color="red";
+          document.getElementById("submit").disabled = true;
+        }
+      }
     }
-    return text;
   }
+
+  xhttp2.open("POST","passValidator.php");
+  xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp2.send("pass=" + document.getElementById("pass").value+"&code=1111");
+
+}
 

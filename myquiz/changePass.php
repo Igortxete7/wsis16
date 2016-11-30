@@ -99,8 +99,8 @@ include ("securityH.php");
 						<input type="password" name="old" id="old" class="form-control" placeholder="Enter your old password" required>
 					</div>
 					<br>
-					<div class="form-group">
-						<input type="password" name="pass" id="pass" class="form-control" placeholder="Enter your new password" required>
+					<div class="form-group" id="passClass">
+						<input type="password" name="pass" id="pass" class="form-control" placeholder="Enter your new password" required onchange="validateChangePass()">
 					</div>
 					<label id="container"></label>
 					<div class="form-group" id="pass2Class">

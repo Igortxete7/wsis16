@@ -138,7 +138,7 @@ ob_start();
 					</div>
 					<div class="col-sm-6" align="right">
 						<div class="row">
-							<span>Forgot your password? <a href='#'>Click here</a></span>
+							<span>Forgot your password? <a href='resetPass.php'>Click here</a></span>
 						</div>
 					</div>
 				</form>
