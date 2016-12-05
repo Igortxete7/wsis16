@@ -1,18 +1,28 @@
-// FUNCTIONS //
+// Funtzioak //
 
-// SLOT MACHINE FUNCTIONS //
+////////// Slot Machine Funtzioak //////////
+
+// Makinaren funtzionamendua kontrolatzen dituzten aldagaiak.
+//Denbora tarteak adierazten dituzten aldagaiak, makina biraka hasteko.
 var play = null;
 var play2 = null;
 var play3 = null;
 
+//Ruleta bakoitzaren balioa eramaten dituzten aldagaiak.
 var start1 = 0;
 var start2 = 1;
 var start3 = 2;
 
+//Stop botoiari zenbat alditan ematen zaion. Ruleta bakoitza aldi batean gelditzeko.
 var times = 0;
+
+//Play botoia pultsatuta dagoela adierazteko.
 var pushed = false;
+
+//Jokua martxan dabilela adierazteko.
 var playing = false;
 
+//Lehenengo ruleta giraka hasteko funtzioa. Irudiak sartuz doa eta karratuaren kolorea aldatzen.
 function spin(){
 	start1++;
 	if(start1 === 6)
@@ -22,6 +32,7 @@ function spin(){
 
 }
 
+//Bigarren ruleta giraka hasteko funtzioa. Irudiak sartuz doa eta karratuaren kolorea aldatzen.
 function spin2(){
 	start2++;
 	if(start2 === 6)
@@ -31,6 +42,7 @@ function spin2(){
 
 }
 
+//Hirugarren ruleta giraka hasteko funtzioa. Irudiak sartuz doa eta karratuaren kolorea aldatzen.
 function spin3(){
 	start3++;
 	if(start3 === 6)
@@ -40,6 +52,8 @@ function spin3(){
 
 }
 
+//Play botoiari ematean funtzionatzen hasten da makina, hiru ruletak biraraziz zehaztutako denboran.
+//Interval horiek play aldagaietan gordetzen dira kontrola eramateko.
 function refresh(){
 	if(!pushed){
 		spin();
@@ -54,19 +68,26 @@ function refresh(){
 	pushed = true;
 }
 
+//AJAX. Eskaera bidaltzean egiten duen funtzioa. Funtzio bakoitzak erantzun mezu ezberdina bueltatuko du.
+//Horren arabera gauza bat edo beste egingo du.
 var xhttp1 = new XMLHttpRequest();
 xhttp1.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
+		//Erantzuna lortu
 		var erantzuna = xhttp1.responseText;
+
+		//Erantzunaren balioak zatutu hutsuneen arabera.
 		var split = erantzuna.split(" ");
+
+		//Erantzuna OK bada kredituak gorde edo kendu dira.
 		if(split[0] =="OK"){
 			document.getElementById("coins").innerHTML=split[1];
 			if(split[1]==0){
 				document.getElementById("play").disabled = true;
-				document.getElementById("play").style.backgroundColor = "#cccccc";
 			}
 		}
-		
+
+		//Erantzuna BOUGHT bada kredituak erosi dira.
 		if(split[0] == "BOUGHT"){
 			document.getElementById("cash").innerHTML=split[1];
 			document.getElementById("coins").innerHTML=split[2];
@@ -75,13 +96,12 @@ xhttp1.onreadystatechange = function() {
 			document.getElementById("coinsToBuy").value = "";
 			if(split[2]==0){
 				document.getElementById("play").disabled = true;
-				document.getElementById("play").style.backgroundColor = "#cccccc";
 			} else {
 				document.getElementById("play").disabled = false;
-				document.getElementById("play").style.backgroundColor = "yellow";
 			}
 		}
 
+		//Erantzuna EXCHANGED bada kredituak diruaren truke aldatu dira.
 		if(split[0] == "EXCHANGED"){
 			document.getElementById("cash").innerHTML=split[1];
 			document.getElementById("coins").innerHTML=split[2];
@@ -89,13 +109,13 @@ xhttp1.onreadystatechange = function() {
 			alert("Exchanged: "+dollar+" coins for "+dollar/4);
 			document.getElementById("coinsToExchange").value = "";
 			if(split[2]==0){
-				document.getElementById("play").disabled = true;
-				document.getElementById("play").style.backgroundColor = "#cccccc";
+				document.getElementById("play").disabled = true;º
 			}
 		}
 	}
 };
 
+//AJAX Funtzioa. Kredituak XML fixategian gordetzeko. updateXML.php dei eginez eta beheko balioak pasaz.
 function gordeKredituak(){
 	xhttp1.open("POST", "updateXML.php");
 	xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -103,6 +123,7 @@ function gordeKredituak(){
 
 }
 
+//AJAX Funtzioa. Kredituak XML fixategian gordetzeko. updateXML.php dei eginez. Kasu honetan partida bakoitzaren ondoren kreditu bat kentzen zaio erabiltzaileari.
 function kenduKredituak(){
 	if(document.getElementById("coins").innerHTML > 0){
 		document.getElementById("play").disabled = false;
@@ -112,20 +133,49 @@ function kenduKredituak(){
 	} else {
 		alert("You have no coins!");
 		document.getElementById("play").disabled = true;
-		document.getElementById("play").style.backgroundColor = "#cccccc";
 	}
 
 }
 
+//AJAX Funtzioa. Kredituak XML fixategian gordetzeko. updateXML.php dei eginez. Kredituak erosterakoan erabiltzen da.
+function buyCoins(){
+	var quantity = Math.abs(new Number(document.getElementById("coinsToBuy").value));
+	var cash = Math.abs(new Number(document.getElementById("cash").innerHTML));
+	if(quantity>cash){
+		alert("ERROR: You do not have enough money!");
+	}else{
+		xhttp1.open("POST", "updateXML.php");
+		xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp1.send("user=" + document.getElementById("user").innerHTML+"&coinsToBuy="+quantity);
+	}
+}
+
+//AJAX Funtzioa. Kredituak XML fixategian gordetzeko. updateXML.php dei eginez. Kredituak diruaren truke aldatzeko erabiltzen da.
+function exchangeCoins(){
+	var quantity = Math.abs(new Number(document.getElementById("coinsToExchange").value));
+	var coins = Math.abs(new Number(document.getElementById("coins").innerHTML));
+	if(quantity>coins){
+		alert("ERROR: You do not have enough coins!");
+	}else{
+		xhttp1.open("POST", "updateXML.php");
+		xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp1.send("user=" + document.getElementById("user").innerHTML+"&coinsToExchange="+quantity);
+	}
+}
+
+//Kredituak daudela konporbatzeko, bestela ezin da jokatu.
 function konprobatu(){
 	if(document.getElementById("coins").innerHTML > 0){
 		document.getElementById("play").disabled = false;
 	} else {
 		document.getElementById("play").disabled = true;
-		document.getElementById("play").style.backgroundColor = "#cccccc";
 	}
 }
 
+//STOP botoiari ematean egiten dituen eragiketak.
+//Hasierako bi alditan bakarrik ruletak gelditzen ditu.
+//Azkeneko ruleta gelditzean, haien balioak konprobatzen ditu saria dagoen ala ez begiratzeko.
+//Kredituak gordetzen dira azkenik eta ruleten balioak randomizatzen dira hurrengo partida hasteko prest.
 function stop(){
 	if(playing){
 		if(times === 0){
@@ -191,30 +241,7 @@ function stop(){
 	}
 }
 
-function buyCoins(){
-	var quantity = Math.abs(new Number(document.getElementById("coinsToBuy").value));
-	var cash = Math.abs(new Number(document.getElementById("cash").innerHTML));
-	if(quantity>cash){
-		alert("ERROR: You do not have enough money!");
-	}else{
-		xhttp1.open("POST", "updateXML.php");
-		xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp1.send("user=" + document.getElementById("user").innerHTML+"&coinsToBuy="+quantity);
-	}
-}
-
-function exchangeCoins(){
-	var quantity = Math.abs(new Number(document.getElementById("coinsToExchange").value));
-	var coins = Math.abs(new Number(document.getElementById("coins").innerHTML));
-	if(quantity>coins){
-		alert("ERROR: You do not have enough coins!");
-	}else{
-		xhttp1.open("POST", "updateXML.php");
-		xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp1.send("user=" + document.getElementById("user").innerHTML+"&coinsToExchange="+quantity);
-	}
-}
-
+//Hamaseitarrean kolore aleatorio bat bueltatzen du.
 function getRandomColor() {
 	var letters = '0123456789ABCDEF';
 	var color = '#';
@@ -224,19 +251,25 @@ function getRandomColor() {
 	return color;
 }
 
+//Elementu bati ertzetako kolorea aldatzeko.
 function changeColor(id){
 	var text = 	document.getElementById(id);
 	text.style.border = "3px solid " + getRandomColor();
 }
 
 
-// SIGN UP FUNCTIONS //
 
+
+////////// Sign Up Funtzioak //////////
+
+
+//Kreditu txartela sartzeko balidazioa.
 function validateCredit(card){
 	var regex=/\d{4}-\d{4}-\d{4}/;
 	return regex.test(card);
 }
 
+//AJAX Funtzioa. Email errepikatua ez sartzeko kontrola.
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
@@ -244,6 +277,7 @@ xhttp.onreadystatechange = function() {
 	}
 };
 
+//AJAX Funtzioa. XML fitxategia hartzen du.
 function validateMail(){
 	xhttp.open("GET", "jokalariak.xml", true);
 	xhttp.send();
@@ -251,6 +285,7 @@ function validateMail(){
 
 var dago = false;
 
+//XML fitxategiarekin begiratu ea korreoa dagoen. Dago aldagaia true-ra aldatzen bada korreo hori jadanik existitzen da.
 function getMail(xml) {
 	dago=false;
 	var xmlDoc = xml.responseXML;
@@ -265,11 +300,13 @@ function getMail(xml) {
 	}
 }
 
+//Erregistro orriko balidazioa.
 function balioztatu(){
 	var emaitza = false;
 	var bool=false;
 	var f=document.getElementById("erregistro");
 	var msg="";
+	//Hutsik dauden balioen kotnrola
 	for(i=0;i<7;i++){
 		if(f.elements[i].value == ""){
 			msg +=f.elements[i].id + " is empty!" + "\n";
@@ -277,9 +314,11 @@ function balioztatu(){
 		}
 	}
 
+	//Hutsik badaude mezua agertu.
 	if(bool)
 		alert(msg);
 	else{
+		//Bestela balidatu datuak eta emaitza bidali.
 		if(dago)
 			alert("The e-mail already exists.");
 		else if(document.getElementById("Password").value.length <6)
@@ -293,5 +332,3 @@ function balioztatu(){
 	}
 	return emaitza;
 }
-
-//LOG IN FUNCTIONS //

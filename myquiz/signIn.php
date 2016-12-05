@@ -51,13 +51,14 @@ ob_start();
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Questions <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
-							<?php
-							if(isset($_SESSION["auth"])){
-								?>
+					<?php
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
+								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
 								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
 								<?php
@@ -66,18 +67,23 @@ ob_start();
 									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
 									<?php
 								}
-							}
-
-							?>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
-							<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
-						</ul>
-					</li>
+								?>
+							</ul>
+						</li>
+						<?php
+					}
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
+							</ul>
+						</li>
+						<?php
+					}
+					?>
 					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
 					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
 				</ul>
@@ -151,6 +157,7 @@ ob_start();
 
 <?php
 
+include("dataBase.php");
 if(isset($_POST["submit"])){
 
 	$email = $_POST['user'];
@@ -167,28 +174,37 @@ if(isset($_POST["submit"])){
 	}
 	else{
 
-		include("dataBase.php");
+		$sql4 = "SELECT Attempts FROM erabiltzaile WHERE eMail = '$email' limit 1";
+		$query2 = mysqli_query($connect,$sql4);
+		$attempts = mysqli_fetch_row($query2);
 
-		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$email' AND Password = '$enct'";
-		$query = mysqli_query($connect,$sql);
-		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-		$count = mysqli_num_rows($query);
+		if(!$query2)
+			die('ERROR in attempts konnexion: ' . mysqli_error($connect));
 
-		if($count == 1){
-			$_SESSION['user-email'] = $email;
-			$_SESSION['user-firstname'] = $row['First Name'];
-			$_SESSION['user-lastname'] =  $row['Last Names'];
-			$_SESSION['auth'] = "YES";
+		if($attempts[0] <3){
 
-			$date = date ("Y-m-d H:i:sa");
-			$sql2 = "INSERT INTO Konexioak (User,Data)
-			VALUES ('$email','$date')";
-			$ema2=mysqli_query($connect, $sql2);
+			include("dataBase.php");
 
-			if(!$ema2)
-				die('ERROR in insert konnexion: ' . mysqli_error($connect));
+			$sql = "SELECT * FROM erabiltzaile WHERE eMail = '$email' AND Password = '$enct'";
+			$query = mysqli_query($connect,$sql);
+			$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+			$count = mysqli_num_rows($query);
 
-			$sql3 = "SELECT MAX(ID) FROM Konexioak WHERE User = '$email'"; //OJO QUE LO HE CAMBIADO
+			if($count == 1){
+				$_SESSION['user-email'] = $email;
+				$_SESSION['user-firstname'] = $row['First Name'];
+				$_SESSION['user-lastname'] =  $row['Last Names'];
+				$_SESSION['auth'] = "YES";
+
+				$date = date ("Y-m-d H:i:sa");
+				$sql2 = "INSERT INTO konexioak (User,Data)
+				VALUES ('$email','$date')";
+				$ema2=mysqli_query($connect, $sql2);
+
+				if(!$ema2)
+					die('ERROR in insert konnexion: ' . mysqli_error($connect));
+
+			$sql3 = "SELECT MAX(ID) FROM konexioak WHERE User = '$email'"; //OJO QUE LO HE CAMBIADO
 			$result = mysqli_query($connect,$sql3);
 
 			if(!$result)
@@ -198,13 +214,37 @@ if(isset($_POST["submit"])){
 
 			$_SESSION['konex-id'] = $row[0];
 
+			$sql6 = "UPDATE erabiltzaile
+			SET Attempts = 0
+			WHERE eMail = '$email'";
+			$ema4=mysqli_query($connect, $sql6);
+
+			if(!$ema4)
+				die('ERROR in update konnexion: ' . mysqli_error($connect));
+
+
 			mysqli_free_result($query);
 			mysqli_close($connect);
-			// IKASLE ETA IRAKASLEEN KONTROLA
+			header('Location: layout.php');		
 
-			header('Location: layout.php');			
-		}
-		else{
+		}else{
+
+			// LOGIN ALDIEN KONTROLA
+			if($email !== 'web000@ehu.es'){
+				
+				$tries = (int)$attempts[0] + 1;
+
+				$sql5 = "UPDATE erabiltzaile
+				SET Attempts = '$tries'
+				WHERE eMail = '$email'";
+				$ema3=mysqli_query($connect, $sql5);
+
+				if(!$ema3)
+					die('ERROR in update konnexion: ' . mysqli_error($connect));
+
+				mysqli_close($connect);
+			}
+
 			?>
 			<div class="alert alert-danger alert-dismissable fade in centerFix">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -212,7 +252,16 @@ if(isset($_POST["submit"])){
 			</div>
 			<?php
 		}
+
+	} else {
+		?>
+		<div class="alert alert-danger alert-dismissable fade in centerFix">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<strong align="center">Your account has been blocked for failing to login three times.</strong>
+		</div>
+		<?php
 	}
+}
 }
 ob_end_flush();
 ?>

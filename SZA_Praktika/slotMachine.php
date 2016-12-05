@@ -1,5 +1,10 @@
 <?php
+//Sesioaren kontrola, norbait logeatuta ez badago ezin da sartu.
 session_start();
+if(!isset($_SESSION["user"])){
+	header('Location: casino.html');
+	exit();
+}
 ?>
 <html>
 <head>
@@ -12,14 +17,15 @@ session_start();
 	<script type="text/javascript" src="functions.js"></script>
 </head>
 
-<body hspace="50" onload="konprobatu()">
-	<button style="position: absolute; top: 50px; left=50px; position: relative;
-	z-index: 100;"> Go back </button>
+<body onload="konprobatu()">
+	<button style="position: absolute; top: 50px; left:10%;" onclick="location.href='Casino.html'"> Go back </button>
+	<button style="position: absolute; top: 50px; right:10%;" onclick="location.href='LogOut.php'"> Logout </button>
 	<br>
-	<p id='name'> <b>Slot Machine</b> </p>
+	<p id='name'>Slot Machine </p>
 	<hr>
 	<br>
 	<br>
+	<!-- Makinaren taula, php kodearekin dituzun eta irabazitako txanponak agertzen dira -->
 	<div id="machine" align="center">
 		<div id="data">
 			<div id="leftData" class="data">
@@ -41,6 +47,7 @@ session_start();
 				<th id="right">RIGHT</th>
 			</tr>
 		</table>
+		<!-- Jokatzeko botoiak -->
 		<div align="center">
 			<button id="play" onclick="refresh()" class="button button2"> PLAY </button>
 			<button id="stop" onclick="stop()" class="button button2"> STOP </button>
@@ -49,6 +56,7 @@ session_start();
 	<br>
 	<br>
 	<br>
+	<!-- Sarien taula -->
 	<div class="prizeTable left" align="center">
 		<p align="center"> PRIZES </p>
 		<table  align="center">
@@ -83,16 +91,16 @@ session_start();
 			</tr>
 		</table>
 	</div>
-
+	<!-- Erabiltzailearen interfazea, phprekin eguneratzen dira dirua eta txanponak -->
 	<div class="right">
 		<p align="center"> <u><b>USER INTERFACE </b></u></p>
 		<?php
 		echo '<p> <b>USER: </b><span id="user">'.$_SESSION["user"].'</span></p>';
 		echo '<p> <b>CASH: </b><span id="cash">'.$_SESSION["cash"].'</span>$</p>';
 		?>
-		<p> <b>BUY COINS (1$ = 4 coins): </b><input type="text" id="coinsToBuy" style="width:50px; color:yellow; background-color:black">&nbsp;<button id="buy" onclick="buyCoins()"> Buy </button></p>
-		<p> <b>EXCHANGE COINS: </b><input type="text" id="coinsToExchange" style="width:50px; color:yellow; background-color:black">&nbsp;<button id="exchange" onclick="exchangeCoins()"> Exchange </button></p>
+		<p> <b>BUY COINS (1$ = 4 coins): </b><input type="text" id="coinsToBuy" style="width:25%; color:yellow; background-color:black">&nbsp;<input type="button" id="buy" style="width:25%;" value="Buy" onclick="buyCoins()"></p>
+		<p> <b>EXCHANGE COINS: </b><input type="text" id="coinsToExchange" style="width:25%; color:yellow; background-color:black">&nbsp;<input type="button" id="exchange" style="width:25%;" value="Exchange" onclick="exchangeCoins()"></p>
 	</div>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
 </html>

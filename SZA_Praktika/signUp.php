@@ -1,28 +1,21 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <link href="style.css" rel="stylesheet" type="text/css">
   <title>Sign UP</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
   <script type="text/javascript" src="functions.js"></script>
-  <style>
-  body {color: black; margin-left: 200px; margin-right: 200px; font-family: 'Roboto', sans-serif;}
-  fieldset {background-color: rgba(255,255,255,0.2); border:none; padding: 10px;}
-  input   {font-size:100%;}
-  select  {font-size:100%;}
-  textarea   {font-size:100%;}
-  button#submit, #reset {width: 200px;}
-  </style>
-  <script type="text/javascript" src="functions.js"></script>
 </head>
-<body hspace="50">
+<body>
+  <!-- Erregistratzeko orria -->
   <button style="position: absolute; top: 50px; left:50px;"> Go back </button>
   <br>
   <br>
-  <p id='name'><b>Sign Up</b></p>
-  <form id="erregistro" name="erregistro" onsubmit="return balioztatu()" method="post" action="signUp.php">
-    <fieldset>
+  <div id="page">
+    <p id='name'>Sign Up</p>
+    <!-- Formularioa, datuak sartzeko -->
+    <form id="erregistro" name="erregistro" onsubmit="return balioztatu()" method="post" action="signUp.php">
       First name:<font color="red">*</font><br>
       <input type="text" name="firstname" id="First name" required placeholder="Name"><br>
       <p id='space'></p>
@@ -44,19 +37,19 @@
       <div id="container">
       </div>
       <br>
-      <button class="button button2" id="Submit" type="submit" name="submit" value="Submit">Submit</button>
-      <button class="button button2" id="Reset" type="reset" value="Reset">Reset</button>
-      
-    </fieldset>
+      <input id="Submit" type="submit" name="submit" value="Submit">
+      <input id="Reset" type="reset" value="Reset">
   </form>
+</div>
 </body>
 </html>
 <?php
 
+//Submit botoia sakatzean erregistroa aurrera eramango du.
 if(isset($_POST["submit"])){
 
-
   //XML FITXATEGIRA GEHITU
+  //XML fitxategiko egitura jarraituz
 
   $file = 'jokalariak.xml';
   $xml = simplexml_load_file($file);
@@ -72,6 +65,7 @@ if(isset($_POST["submit"])){
 
   $xml->asXML($file);
 
+  //Ondo sortu du erablitzailea eta mezua azalduko du.
   ?>
   <script>
   var container = document.getElementById("container");
@@ -80,8 +74,5 @@ if(isset($_POST["submit"])){
   container.style.width = "250px";
   </script>
   <?php
-
-
 }
-
 ?>

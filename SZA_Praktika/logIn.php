@@ -1,40 +1,25 @@
-<?php
-session_start();
-?>
 <html>
 <head>
 	<meta charset="utf-8">
 	<link href="style.css" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 	<title>Login</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 	<script type="text/javascript" src="functions.js"></script>
-	<style>
-	p#sur	{text-align: center;}
-	p#space	{font-size: 10%;}
-	div#container {color: red; background-color: rgba(0,0,0,0.2); margin: 5px; width: 35%; padding: 5px; display:none;}
-	input   {font-size:100%;}
-	select  {font-size:100%;}
-	textarea   {font-size:100%;}
-	</style>
 </head>
 
-<body hspace="50">
-	<button style="position: absolute; top: 50px; left=50px;"> Go back </button>
-	<br><br><br>
-	<div align='center'>
+<body>
+	<br><br><br><br>
+	<!-- Login egiteko orria -->
+	<div id="page">
 		<p id='name'>Login</p>
-		<p id='sur'>Use your ID or mail account.</p>
-		<div id="container" name="container">
+		<p id='sur' align="center">Use your ID or mail account.</p>
+		<div id="container" name="container" align="center" style="color:red">
 		</div>
 		<form id="login" name="login" method="post" action="logIn.php">
 			<input type="email" name="e-mail" id="e-mail" size=40 placeholder="Email" required>
-			<p id='space'></p>
-			<input type="password" name="pass" id="Pass" size=40 placeholder="Password" required><br>
-			<p id='space'></p>
-			<input type="checkbox"> Keep me signed in <br>
-			<p id='space'></p>
-			<button class="button button2" type="submit" value="Submit" name="submit" size=40> Sign in </button>
+			<input type="password" name="pass" id="Pass" size=40 placeholder="Password" required>
+			<p><input type="checkbox"> Keep me signed in</p>
+			<input type="submit" value="Login" name="submit">
 			<br>
 		</form>
 		<p>No account? <a href='signUp.php'>Create one!</a></p>
@@ -44,12 +29,14 @@ session_start();
 </html>
 
 <?php
+// Login egitean exekutatzen den kodea, xml fitxategia aztertzen du ea erabiltzailea existitzen den eta pasahitza zuzena den
 if(isset($_POST["submit"])){
 
 	$email = $_POST['e-mail'];
 	$password = $_POST['pass'];
 	$valid = false;
 
+	//Hutsik badaude errorea azaldu
 	if(empty($email) || empty($password)){
 		?>
 		<script>
@@ -62,8 +49,11 @@ if(isset($_POST["submit"])){
 		<?php
 	}
 	else{
+		//Bestela XML fitxategia aztertu
+
 		$xml = simplexml_load_file("jokalariak.xml") or die("Error: Cannot create object");
 
+		//Fitxategiko sarrera bakoitzeko bilatu. Zuzena bada, sesioko aldagaian gorde eta irten.
 		foreach($xml->children() as $jokalaria) { 
 			$unekoMail = $jokalaria->mail;
 			$unekoPass = $jokalaria->pasahitza;
@@ -82,10 +72,12 @@ if(isset($_POST["submit"])){
 			}
 		}
 
+		//Erabiltzailea aurkitu badu, orri nagusira bideratzen du erabiltzailea.
 		if($valid){
-			header("Location: slotMachine.php"); //CAMBIAR AL MAIN ORRIA
+			header("Location: slotMachine.php");
 			exit();
 		} else{
+			//Bestela beste errore mezu hau azalduko da.
 			?>
 			<script>
 			var container = document.getElementById("container");

@@ -5,11 +5,8 @@ $email = $_SESSION['user-email'];
 
 include("dataBase.php");
 
-$total = "SELECT COUNT(*) FROM Galderak";
-$user  = "SELECT COUNT(*) FROM Galderak WHERE eMail = '$email'";
-
-$result1 = mysqli_query($connect,$total);
-$result2 = mysqli_query($connect,$user);
+$result1 = mysqli_query($connect,"SELECT COUNT(*) FROM galderak");
+$result2 = mysqli_query($connect,"SELECT COUNT(*) FROM galderak INNER JOIN testak ON galderak.TestID = testak.ID WHERE Creator = '$email'");
 
 $row1 = mysqli_fetch_row($result1);
 $row2 = mysqli_fetch_row($result2);

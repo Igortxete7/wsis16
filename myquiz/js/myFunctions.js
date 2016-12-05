@@ -225,7 +225,7 @@ function getRandomColor() {
 
 function changeColor(){
   var text =  document.getElementById("text");
-  text.style.border = "1px solid " + getRandomColor();
+  text.style.border = "2px solid " + getRandomColor();
 }
 
 

@@ -1,6 +1,8 @@
 <?php
 session_start();
-include ("securityH.php");
+include ("security.php");
+include("dataBase.php");
+$email = $_SESSION['user-email'];
 ?>
 <html>
 <head>
@@ -8,8 +10,8 @@ include ("securityH.php");
 	<title>Insert Question</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/myFunctions.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="functions.js"></script>
 	<style type="text/css">
 	.centerFix {
 		position: fixed;
@@ -35,13 +37,14 @@ include ("securityH.php");
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<li class="dropdown active">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Questions <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
-							<?php
-							if(isset($_SESSION["auth"])){
-								?>
+					<?php
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
+								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
 								<li class="active"><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
 								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
 								<?php
@@ -50,18 +53,23 @@ include ("securityH.php");
 									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
 									<?php
 								}
-							}
-							
-							?>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
-							<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
-						</ul>
-					</li>
+								?>
+							</ul>
+						</li>
+						<?php
+					}
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
+							</ul>
+						</li>
+						<?php
+					}
+					?>
 					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
 					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
 				</ul>
@@ -98,6 +106,24 @@ include ("securityH.php");
 				<p align="center">Insert any kind of question in the first field and the answer below. <br> If you want you can specify the difficulty.</p>
 				<br>
 				<form id="question" name="question" method="post" action="insertQuestion.php">
+					<div class="form-group form-inline" >
+						<label for="difficulty" style="width:12%">Quiz:</label>
+						<select class="form-control" style="width:87%" name="quiz">
+							<?php 
+							$sql = "SELECT ID, Name FROM testak WHERE Creator='$email'";
+
+							$query = mysqli_query($connect,$sql);
+
+							if(!$query)
+								die('ERROR in test selection: ' . mysqli_error($connect));
+
+							while($row=mysqli_fetch_row($query)){
+								echo '<option value='.$row[0].'>'.$row[1].'</option>';
+							}
+							?>
+						</select>
+					</div>
+					<br>
 					<div class="form-group form-inline">
 						<label for="question" style="width:12%">Question:</label>
 						<input type="text" style="width:87%" name="question" id="Question" class="form-control" placeholder="Enter your question" required onfocus="del()">
@@ -106,15 +132,10 @@ include ("securityH.php");
 						<label for="answer" style="width:12%">Answer:</label>
 						<input type="text" style="width:87%" name="answer" id="Answer" class="form-control" placeholder="Enter your answer" required>
 					</div>
-					<br>
 					<div class="form-group form-inline">
-						<label for="subject" style="width:12%">Subject:</label>
-						<input type="text" style="width:87%" name="subject" id="subject" class="form-control" placeholder="Enter the subject" required>
-					</div>
-					<div class="form-group form-inline" >
-						<label for="difficulty" style="width:12%">Difficulty:</label>
-						<select class="form-control" style="width:87%" name="diff">
-							<option value=""></option>
+						<label for="answer" style="width:12%">Difficulty:</label>
+						<select class="form-control" style="width:87%" name="diff" id="Diff">
+							<option value="0"></option>
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
@@ -122,7 +143,9 @@ include ("securityH.php");
 							<option value="5">5</option>
 						</select>
 					</div>
+
 					<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit">Add question</button>
+					
 				</form>
 				<br><br><br><br><br>
 			</div>
@@ -131,14 +154,10 @@ include ("securityH.php");
 	</div>
 </body>
 </html>
-
 <?php
 
 if(isset($_POST["submit"])){
 
-	include("dataBase.php");
-
-	$email = $_SESSION['user-email'];
 	$quest = $_POST['question'];
 	$ans = $_POST['answer'];
 
@@ -154,22 +173,12 @@ if(isset($_POST["submit"])){
 	else{
 
 		//GALDERAK TAULARA GEHITU
+		$test = $_POST['quiz'];
+		$diff = $_POST['diff'];
 
-		if(isset($_POST['subject']))
-			$subj=$_POST['subject'];
-		else
-			$subj = "";
+		$sql = "INSERT INTO Galderak (TestID,Question,Answer,Difficulty)
+		VALUES ('$test','$quest','$ans','$diff')";
 
-
-		if(isset($_POST['diff'])){
-			$diff=$_POST['diff'];
-			$sql = "INSERT INTO Galderak (eMail,Question,Answer,Subject,Difficulty)
-			VALUES ('$email','$quest','$ans','$subj','$diff')";
-		}else{
-			$diff="";
-			$sql = "INSERT INTO Galderak (eMail,Question,Answer,Subject,Difficulty)
-			VALUES ('$email','$quest','$ans','$subj',NULL)";
-		}
 		$ema=mysqli_query($connect, $sql);
 
 		if(!$ema)

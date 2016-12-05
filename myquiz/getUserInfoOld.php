@@ -4,21 +4,63 @@ session_start();
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Reset Password</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100, 400" rel="stylesheet">
+	<title>Get User Info</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="js/myFunctions.js"></script>
-	<style type="text/css">
-	.centerFix {
-		position: fixed;
-		left: 50%;
-		top: 20%;
-		transform: translate(-50%, -20%);
+	<style>
+	input 	{font-size:100%;}
+	button 	{width:400px; height:35px; background-color: rgb(19,122,212); font-size: 100%; border:none; color:white;}
+	div#container {color: red;}
+
+	.button {
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
 	}
+
+	.button2:hover {
+		box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+		border:solid;
+		border-color:rgb(8,79,138);
+	}
+
 	</style>
+
+	<script src="functions.js"></script>
+	<script type="text/javascript">
+
+	function getInfo(){
+		var dago = false;
+		var xmlDoc = document.getElementById('xml-file').contentDocument;
+
+		var mail = document.getElementById('mail').value;
+
+		var emails = xmlDoc.getElementsByTagName('eposta');
+		var firstnames = xmlDoc.getElementsByTagName('izena');
+		var lastnames = xmlDoc.getElementsByTagName('abizena');
+		var tlfs = xmlDoc.getElementsByTagName('telefonoa');
+
+		for (var i = 0; i < emails.length; i++) {
+
+			if(mail == emails[i].childNodes[0].nodeValue){
+				document.getElementById('name').value = firstnames[i].childNodes[0].nodeValue;
+				document.getElementById('surname').value = lastnames[i].childNodes[0].nodeValue;
+				document.getElementById('tlf').value = tlfs[i].childNodes[0].nodeValue;
+				dago = true;
+				break;
+			}
+		}
+		if(!dago){
+			alert("The e-mail does not exist.");
+		}
+	}
+
+	</script>
+
 </head>
-<body>
+
+<body hspace="50">
 	<nav class="navbar navbar-inverse" style="border-radius:0px">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -59,7 +101,7 @@ session_start();
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
-								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
+								<li class="active"><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
 							</ul>
 						</li>
 						<?php
@@ -94,98 +136,27 @@ session_start();
 	</nav>
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h1>Reset Password</h1>
+			<h1>Get User Info</h1>
 		</div>
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<p align="center">Introduce your email and we will send you the new password.</p>
-				<form id="reset" name="reset" method="post" action="resetPass.php">
-					<div class="form-group">
-						<label for="email">Email:</label>
-						<input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
-					</div>
-					<button class="btn btn-primary btn-block" type="submit" value="Submit" id="submit" name="submit">Reset password</button>
-				</form>
+		<div align='center'>
+			<p id='sur'>Insert an user e-mail to get their personal information.</p>
+			<div id="container" name="container">
 			</div>
+			<form>
+				<input type="email" name="mail" id="mail" size=40 placeholder="Email" required><br>
+				<br>
+				<br>
+				<input type="text" name="name" id="name" size=40 placeholder="Name" ><br>
+				<p id='space'></p>
+				<input type="text" name="surname" id="surname" size=40 placeholder="Surname" ><br>
+				<p id='space'></p>
+				<input type="text" name="tlf" id="tlf" size=40 placeholder="Telephone" ><br>
+				<p id='space'></p>
+				<button class="button button2" id='hover' size=40 onmousedown="changeBack(this,'gray')" onmouseup="changeBack(this,'rgb(19,122,212)')" onclick="getInfo()"> Get info </button>
+			</form>
+			<br>
+			<br>
 		</div>
 	</div>
 </body>
 </html>
-
-<?php
-if(isset($_POST['submit'])){
-
-	$to = $_POST['email'];
-	$subject = "New password confirmation";
-	$newPass = uniqid();
-	$enctPass = sha1($newPass);
-
-	$message = "
-	<html>
-	<head>
-	<title>New password</title>
-	</head>
-	<body>
-	<p>Your password has been reset.</p>
-	<p> Here is your new password to have access to <a href='http://www.igortxete.hol.es'>Igortxete.hol.es</a>. </p>
-	<br>
-	<p>".$newPass." </p>
-	<br>
-	<br>
-	</body>
-	</html>
-	";
-
-	// Always set content-type when sending HTML email
-	$headers = "MIME-Version: 1.0" . "\r\n";
-	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-	// More headers
-	$headers .= 'From: <Quizzes@ehu.es>' . "\r\n";
-
-	$bidalia = mail($to,$subject,$message,$headers);
-
-	if($bidalia){
-
-		include("dataBase.php");
-
-		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$to'";
-		$query = mysqli_query($connect,$sql);
-		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-		$count = mysqli_num_rows($query);
-
-		if($count == 1){
-
-			$sql2 = "UPDATE Erabiltzaile
-			SET Password = '$enctPass'
-			WHERE eMail = '$to'";
-			$ema2=mysqli_query($connect, $sql2);
-
-			if(!$ema2)
-				die('ERROR in insert konnexion: ' . mysqli_error($connect));
-
-			?>
-			<div class="alert alert-success alert-dismissable fade in centerFix">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-				<strong align="center">The email was sent to <?php echo $to; ?></strong>
-			</div>
-			<?php
-		} else {
-			?>
-			<div class="alert alert-danger alert-dismissable fade in centerFix">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-				<strong align="center">The email does not exist.</strong>
-			</div>
-			<?php
-		}
-
-	} else {
-		?>
-		<div class="alert alert-danger alert-dismissable fade in centerFix">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-			<strong align="center">The email could not be sent.</strong>
-		</div>
-		<?php
-	}
-}
-?>

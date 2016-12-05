@@ -39,13 +39,14 @@ session_start();
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Questions <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
-							<?php
-							if(isset($_SESSION["auth"])){
-								?>
+					<?php
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
+								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
 								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
 								<?php
@@ -54,18 +55,23 @@ session_start();
 									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
 									<?php
 								}
-							}
-							
-							?>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
-							<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
-						</ul>
-					</li>
+								?>
+							</ul>
+						</li>
+						<?php
+					}
+					if(isset($_SESSION["auth"])){
+						?>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
+							</ul>
+						</li>
+						<?php
+					}
+					?>
 					<li class="active"><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
 					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
 				</ul>
@@ -111,7 +117,7 @@ session_start();
 						<label id="testua" style="color:gray"><input type="checkbox" name="public" id="public" disabled="disabled"> Make my email public</label>
 					</div>
 					<div class="form-group">
-						<textarea class="form-control" rows="5" id="text" name="text" placeholder="Write your comment" required onmouseover="changeColor()"></textarea>
+						<textarea class="form-control" rows="5" id="text" name="text" placeholder="Write your comment" style="border: 2px solid black" required onmouseover="changeColor()"></textarea>
 					</div>
 					<div class="form-group">
 						<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit"> Send </button>
@@ -146,10 +152,10 @@ if(isset($_POST["submit"])){
 		//GALDERAK TAULARA GEHITU
 
 		if(isset($_POST['public'])){
-			$sql = "INSERT INTO Kritika
+			$sql = "INSERT INTO kritika
 			VALUES ('$izena','$mail','$iruzkina')";
 		}else{
-			$sql = "INSERT INTO Kritika (Izena, Kritika)
+			$sql = "INSERT INTO kritika (Izena, Kritika)
 			VALUES ('$izena','$iruzkina')";
 		}
 
