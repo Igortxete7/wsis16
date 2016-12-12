@@ -107,45 +107,58 @@ $email = $_SESSION['user-email'];
 				<br>
 				<form id="question" name="question" method="post" action="insertQuestion.php">
 					<div class="form-group form-inline" >
-						<label for="difficulty" style="width:12%">Quiz:</label>
-						<select class="form-control" style="width:87%" name="quiz">
-							<?php 
-							$sql = "SELECT ID, Name FROM testak WHERE Creator='$email'";
+						<?php 
+						$sql = "SELECT ID, Name FROM testak WHERE Creator='$email'";
 
-							$query = mysqli_query($connect,$sql);
+						$query = mysqli_query($connect,$sql);
 
-							if(!$query)
-								die('ERROR in test selection: ' . mysqli_error($connect));
+						if(!$query)
+							die('ERROR in test selection: ' . mysqli_error($connect));
 
-							while($row=mysqli_fetch_row($query)){
-								echo '<option value='.$row[0].'>'.$row[1].'</option>';
-							}
+						if(mysqli_num_rows($query)==0){
 							?>
-						</select>
-					</div>
-					<br>
-					<div class="form-group form-inline">
-						<label for="question" style="width:12%">Question:</label>
-						<input type="text" style="width:87%" name="question" id="Question" class="form-control" placeholder="Enter your question" required onfocus="del()">
-					</div>
-					<div class="form-group form-inline">
-						<label for="answer" style="width:12%">Answer:</label>
-						<input type="text" style="width:87%" name="answer" id="Answer" class="form-control" placeholder="Enter your answer" required>
-					</div>
-					<div class="form-group form-inline">
-						<label for="answer" style="width:12%">Difficulty:</label>
-						<select class="form-control" style="width:87%" name="diff" id="Diff">
-							<option value="0"></option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-					</div>
+							<div align="center">
+								<label align="center">You have no created quizzes!</label>
+								<br>
+								<a class="btn btn-default" href='createTest.php'>Create Quiz</a>
+							</div>
+							<?php 
+						} else {
+							?>
+							<label for="difficulty" style="width:12%">Quiz:</label>
+							<select class="form-control" style="width:87%" name="quiz">
+								<?php
+								while($row=mysqli_fetch_row($query)){
+									echo '<option value='.$row[0].'>'.$row[1].'</option>';
+								}
+								?>
+							</select>
+						</div>
+						<br>
+						<div class="form-group form-inline">
+							<label for="question" style="width:12%">Question:</label>
+							<input type="text" style="width:87%" name="question" id="Question" class="form-control" placeholder="Enter your question" required onfocus="del()">
+						</div>
+						<div class="form-group form-inline">
+							<label for="answer" style="width:12%">Answer:</label>
+							<input type="text" style="width:87%" name="answer" id="Answer" class="form-control" placeholder="Enter your answer" required>
+						</div>
+						<div class="form-group form-inline">
+							<label for="answer" style="width:12%">Difficulty:</label>
+							<select class="form-control" style="width:87%" name="diff" id="Diff">
+								<option value="0"></option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</div>
 
-					<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit">Add question</button>
-					
+						<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit">Add question</button>
+						<?php
+					}
+					?>
 				</form>
 				<br><br><br><br><br>
 			</div>
