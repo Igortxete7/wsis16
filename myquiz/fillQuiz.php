@@ -1,8 +1,6 @@
 <?php
 session_start();
-include ("security.php");
 include("dataBase.php");
-$email = $_SESSION['user-email'];
 
 if(isset($_POST['TestID'])){
 	$id = $_POST['TestID'];
@@ -123,15 +121,15 @@ $row=mysqli_fetch_row($ema1);
 					while($row=mysqli_fetch_array($ema, MYSQLI_ASSOC)){
 
 						echo "<div class='form-group form-inline'>
-							<label for='question' style='width:12%''>Question: </label>
-							<span style='width:87%; padding:1.5%; border: 1px solid #cccccc; border-radius:4px;'' name='question' id='Question'>".$row['Question']."</span>
+						<label for='question' style='width:12%''>Question: </label>
+						<span style='width:87%; padding:1.5%; border: 1px solid #cccccc; border-radius:4px;'' name='question' id='Question'>".$row['Question']."</span>
 						</div>";
 
 						echo "<div class='form-group form-inline'>
-							<label for='answer' style='width:12%''>Answer:</label>
-							<input type='text' style='width:87%'' name='answer[]' id='Answer' class='form-control'>
+						<label for='answer' style='width:12%''>Answer:</label>
+						<input type='text' style='width:87%'' name='answer[]' id='Answer' class='form-control'>
 						</div> <br>";
-				
+						
 					}
 
 					mysqli_free_result($ema);

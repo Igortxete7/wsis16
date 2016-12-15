@@ -1,14 +1,15 @@
 <?php
 session_start();
-include ("security.php");
 include("dataBase.php");
-$email = $_SESSION['user-email'];
 
 if(isset($_POST['TestID'])){
 	$id = $_POST['TestID'];
 }else{
 	header("location:layout.php");
 }
+
+$score = 0;
+$totala = 0;
 
 include("dataBase.php");
 
@@ -136,6 +137,7 @@ $row=mysqli_fetch_row($ema1);
 
 							if(strcasecmp($unekoans, $row['Answer']) == 0){
 								//ONDOO
+								$score++;
 								?>
 								<div class="form-group has-success has-feedback form-inline">
 									<label class="control-label" style='width:12%' for="inputSuccess">Correct:</label>
@@ -152,11 +154,16 @@ $row=mysqli_fetch_row($ema1);
 								</div><br>
 								<?php
 							}
+							$totala++;
 						}
 						mysqli_free_result($ema);
 						mysqli_close($connect);
 					}
 					?>
+					<div class="form-group has-success has-feedback form-inline" align="center">
+						<label class="control-label" for="inputSuccess" style="font-size: 200%;">Your Score: <?php echo $score . " / " . $totala; ?></label>
+					</div>
+					<br>
 					<button class="btn btn-primary btn-block" type="submit">Finish</button>
 
 				</form>

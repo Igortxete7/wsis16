@@ -1,8 +1,6 @@
 <?php
 session_start();
-include ("security.php");
 include("dataBase.php");
-$email = $_SESSION['user-email'];
 ?>
 <html>
 <head>
