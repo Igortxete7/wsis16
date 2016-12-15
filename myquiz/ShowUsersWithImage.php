@@ -194,7 +194,7 @@ session_start();
 
 							include("dataBase.php");
 
-							$ema = mysqli_query($connect, "SELECT * FROM Erabiltzaile");
+							$ema = mysqli_query($connect, "SELECT * FROM erabiltzaile");
 
 							while($row=mysqli_fetch_array($ema, MYSQLI_ASSOC)){
 								if(empty($row['Image'])){

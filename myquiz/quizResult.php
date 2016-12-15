@@ -1,21 +1,29 @@
 <?php
 session_start();
+include ("security.php");
+include("dataBase.php");
+$email = $_SESSION['user-email'];
+
+if(isset($_POST['TestID'])){
+	$id = $_POST['TestID'];
+}else{
+	header("location:layout.php");
+}
+
+include("dataBase.php");
+
+$ema1 = mysqli_query($connect, "SELECT Name FROM testak WHERE ID = '$id' LIMIT 1");
+$row=mysqli_fetch_row($ema1);
 ?>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Support</title>
+	<title>Reviewing <?php echo $row[0]; ?> Quiz</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/myFunctions.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="js/myFunctions.js" type="text/javascript"></script>
 	<style type="text/css">
-	.fixed {
-		position: fixed;
-		top: 25;
-		right: 25;
-	}
-
 	.centerFix {
 		position: fixed;
 		left: 50%;
@@ -23,6 +31,7 @@ session_start();
 		transform: translate(-50%, -20%);
 	}
 	</style>
+
 </head>
 
 <body>
@@ -47,7 +56,7 @@ session_start();
 							<ul class="dropdown-menu">
 								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
 								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
-								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
+								<li class="active"><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
 								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
@@ -72,7 +81,7 @@ session_start();
 						<?php
 					}
 					?>
-					<li class="active"><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
 					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -101,76 +110,59 @@ session_start();
 	</nav>
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h1>Support</h1>
+			<h2><?php echo $row[0]; ?> Results</h2>
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<p align="center">We are here to help.</p>
-				<form id="iruzkina" action="sendComment.php" method="post">
-					<div class="form-group">
-						<input type="text" name="izena" id="izena" class="form-control" placeholder="Enter your name" required autofocus>
-					</div>
-					<div class="form-group">
-						<input type="email" name="email" id="email" class="form-control" placeholder="Enter your mail" onchange="desgaitu()">
-					</div>
-					<div class="form-group">
-						<label id="testua" style="color:gray"><input type="checkbox" name="public" id="public" disabled="disabled"> Make my email public</label>
-					</div>
-					<div class="form-group">
-						<textarea class="form-control" rows="5" id="text" name="text" placeholder="Write your comment" style="border: 2px solid black" required onmouseover="changeColor()"></textarea>
-					</div>
-					<div class="form-group">
-						<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit"> Send </button>
-					</div>
+				<br>
+				<form action="layout.php">
+					<?php
+					if(isset($_POST["submit"])){
+
+						$ema = mysqli_query($connect, "SELECT * FROM Galderak WHERE TestID = '$id'");
+
+						//GALDERAK KONPROBATU
+
+						for($i=0; $i<count($_POST['answer']); $i++){
+
+							$unekoans = $_POST['answer'][$i];
+
+							$row=mysqli_fetch_array($ema, MYSQLI_ASSOC);
+
+							echo "<div class='form-group form-inline'>
+							<label for='question' style='width:12%'>Question: </label>
+							<span style='width:87%; padding:1.5%; border: 1px solid #cccccc; border-radius:4px;'' name='question' id='Question'>".$row['Question']."</span>
+							</div>";
+
+							if(strcasecmp($unekoans, $row['Answer']) == 0){
+								//ONDOO
+								?>
+								<div class="form-group has-success has-feedback form-inline">
+									<label class="control-label" style='width:12%' for="inputSuccess">Correct:</label>
+									<input type="text" style='width:87%' class="form-control" value="<?php echo $unekoans; ?>">
+								</div><br>
+
+								<?php
+							} else {
+								//GAIZKII
+								?>
+								<div class="form-group has-error has-feedback form-inline">
+									<label class="control-label" style='width:12%' for="inputError">Wrong:</label>
+									<input type="text" style='width:87%' class="form-control" value="<?php echo $unekoans; ?>">
+								</div><br>
+								<?php
+							}
+						}
+						mysqli_free_result($ema);
+						mysqli_close($connect);
+					}
+					?>
+					<button class="btn btn-primary btn-block" type="submit">Finish</button>
+
 				</form>
+				<br><br><br><br><br>
 			</div>
 		</div>
-		<br><br><br><br><br><br>
 	</div>
 </body>
 </html>
-<?php
-
-if(isset($_POST["submit"])){
-
-	include("dataBase.php");
-
-	$izena = $_POST['izena'];
-	$mail = $_POST['email'];
-	$iruzkina =$_POST['text'];
-
-	if( empty($izena) || empty($iruzkina) ){
-		?>
-		<div class="alert alert-danger alert-dismissable fade in centerFix">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-			<strong align="center">You need to fill name and comment fields.</strong>
-		</div>
-		<?php
-	}
-	else{
-
-		//GALDERAK TAULARA GEHITU
-
-		if(isset($_POST['public'])){
-			$sql = "INSERT INTO kritika
-			VALUES ('$izena','$mail','$iruzkina')";
-		}else{
-			$sql = "INSERT INTO kritika (Izena, Kritika)
-			VALUES ('$izena','$iruzkina')";
-		}
-
-		$ema=mysqli_query($connect, $sql);
-
-		if(!$ema)
-			die('ERROR in query execution: ' . mysqli_error($connect));
-
-		?>
-		<div class="alert alert-success alert-dismissable fade in centerFix">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-			<strong align="center">The comment was successfully sent.</strong>
-		</div>
-		<?php
-		mysqli_close($connect);
-	}
-}
-?>

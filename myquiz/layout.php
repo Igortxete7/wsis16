@@ -4,7 +4,7 @@ session_start();
 <html>
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
-	<title>Tests</title>
+	<title>Home</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -44,11 +44,20 @@ session_start();
 		0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
 		50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
 		100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-	}	
+	}
+
+	.btn-xlarge {
+		padding: 18px 28px;
+		font-size: 22px; //change this to your desired size
+		line-height: normal;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+	}
 	</style>
 </head>
 <body>
-		<nav class="navbar navbar-inverse" style="border-radius:0px">
+	<nav class="navbar navbar-inverse" style="border-radius:0px">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -65,16 +74,17 @@ session_start();
 					if(isset($_SESSION["auth"])){
 						?>
 						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Quizzes <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
-								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Quiz</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
-								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+								<li><a href="selectQuiz.php"><span class="glyphicon glyphicon-play"></span> Play Quizzes</a></li>
+								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
+								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Quizzes</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
 									?>
-									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Quizzes</a></li>
 									<?php
 								}
 								?>
@@ -94,8 +104,7 @@ session_start();
 						<?php
 					}
 					?>
-					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
-					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Support</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<?php
@@ -124,18 +133,16 @@ session_start();
 	<div class="container">
 		<div class="jumbotron text-center">
 			<h1>Quiz: crazy questions</h1>
-			<p>Quizzes will be displayed in future laboratories...</p> 
-		</div>
-		<div class="row">
-			<div class="col-sm-4 col-sm-offset-4">
-				<div class="alert alert-info" align="center">
-					Quizzes under construction.
-				</div>
-			</div>
+			<h3>Ready!</h3> 
 		</div>
 		<div class="progress">
-			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width:75%">
-				75%
+			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+				100%
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 col-sm-offset-4" align="center">
+				<a href="selectQuiz.php" type="button" class="btn btn-xlarge btn-success"><span class="glyphicon glyphicon-play"></span> PLAY!</a>
 			</div>
 		</div>
 		<br><br><br><br><br><br><br>

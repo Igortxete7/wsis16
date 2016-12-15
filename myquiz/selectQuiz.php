@@ -1,28 +1,35 @@
 <?php
 session_start();
+include ("security.php");
+include("dataBase.php");
+$email = $_SESSION['user-email'];
 ?>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Support</title>
+	<title>Select Quiz</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/myFunctions.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="js/myFunctions.js" type="text/javascript"></script>
 	<style type="text/css">
-	.fixed {
-		position: fixed;
-		top: 25;
-		right: 25;
-	}
-
 	.centerFix {
 		position: fixed;
 		left: 50%;
 		top: 20%;
 		transform: translate(-50%, -20%);
 	}
+
+	.btn-xlarge {
+		padding: 18px 28px;
+		font-size: 22px; //change this to your desired size
+		line-height: normal;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+	}
 	</style>
+
 </head>
 
 <body>
@@ -47,7 +54,7 @@ session_start();
 							<ul class="dropdown-menu">
 								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
 								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
-								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
+								<li class="active"><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
 								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
@@ -72,7 +79,7 @@ session_start();
 						<?php
 					}
 					?>
-					<li class="active"><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
 					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -101,76 +108,46 @@ session_start();
 	</nav>
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h1>Support</h1>
+			<h1>Select a quiz</h1>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<p align="center">We are here to help.</p>
-				<form id="iruzkina" action="sendComment.php" method="post">
-					<div class="form-group">
-						<input type="text" name="izena" id="izena" class="form-control" placeholder="Enter your name" required autofocus>
+			<div class="col-md-10 col-md-offset-1">
+				<br>
+				<?php
+				include("dataBase.php");
+
+				$ema = mysqli_query($connect, "SELECT * FROM testak");
+
+				while($row=mysqli_fetch_array($ema, MYSQLI_ASSOC)){
+
+					$id = $row['ID'];
+					$num = 0;
+					?>
+					<div class="col-sm-6 col-md-4">
+						<div class="thumbnail" >
+							<?php 
+							if(empty($row['Image'])){
+								echo '<img id="myImg" src="img/default.jpg" alt="'.$row['Name'].'">';
+
+							} else{
+								echo '<img id="myImg" src="data:image/jpeg;base64,'.base64_encode( $row['Image'] ).'" alt="'.$row['Name'].'">';
+							}
+							?>
+							<div class="caption">
+								<h3><?php echo $row['Name']; ?></h3>
+								<form action="fillQuiz.php" method="post">
+									<input type="hidden" value="<?php echo $id; ?>" name="TestID" id="TestID">
+									<button type="submit" value="Submit" class="btn btn-xlarge btn-success"><span class="glyphicon glyphicon-play"></span> PLAY!</button>
+								</form>
+							</div>
+						</div>
 					</div>
-					<div class="form-group">
-						<input type="email" name="email" id="email" class="form-control" placeholder="Enter your mail" onchange="desgaitu()">
-					</div>
-					<div class="form-group">
-						<label id="testua" style="color:gray"><input type="checkbox" name="public" id="public" disabled="disabled"> Make my email public</label>
-					</div>
-					<div class="form-group">
-						<textarea class="form-control" rows="5" id="text" name="text" placeholder="Write your comment" style="border: 2px solid black" required onmouseover="changeColor()"></textarea>
-					</div>
-					<div class="form-group">
-						<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit"> Send </button>
-					</div>
-				</form>
+					<?php
+				}
+				?>
+				<br><br><br><br><br><br>
 			</div>
 		</div>
-		<br><br><br><br><br><br>
 	</div>
 </body>
 </html>
-<?php
-
-if(isset($_POST["submit"])){
-
-	include("dataBase.php");
-
-	$izena = $_POST['izena'];
-	$mail = $_POST['email'];
-	$iruzkina =$_POST['text'];
-
-	if( empty($izena) || empty($iruzkina) ){
-		?>
-		<div class="alert alert-danger alert-dismissable fade in centerFix">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-			<strong align="center">You need to fill name and comment fields.</strong>
-		</div>
-		<?php
-	}
-	else{
-
-		//GALDERAK TAULARA GEHITU
-
-		if(isset($_POST['public'])){
-			$sql = "INSERT INTO kritika
-			VALUES ('$izena','$mail','$iruzkina')";
-		}else{
-			$sql = "INSERT INTO kritika (Izena, Kritika)
-			VALUES ('$izena','$iruzkina')";
-		}
-
-		$ema=mysqli_query($connect, $sql);
-
-		if(!$ema)
-			die('ERROR in query execution: ' . mysqli_error($connect));
-
-		?>
-		<div class="alert alert-success alert-dismissable fade in centerFix">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-			<strong align="center">The comment was successfully sent.</strong>
-		</div>
-		<?php
-		mysqli_close($connect);
-	}
-}
-?>

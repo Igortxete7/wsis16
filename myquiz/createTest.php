@@ -10,7 +10,40 @@ include ("security.php");
 	<script src="js/bootstrap.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script src="functions.js"></script>
-	<style type="text/css">
+
+	<!--Irudiak ikusteko-->
+	<link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
+	<script src="js/plugins/sortable.min.js" type="text/javascript"></script>
+	<script src="js/fileinput.min.js"></script>
+
+
+	<style>
+	.kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
+		margin: 0;
+		padding: 0;
+		border: none;
+		box-shadow: none;
+		text-align: center;
+	}
+	.kv-avatar .file-input {
+		display: table-cell;
+		max-width: 220px;
+	}
+
+	.fixed {
+		position: fixed;
+		top: 25;
+		right: 25;
+	}
+
+	.centerFix {
+		position: fixed;
+		left: 50%;
+		top: 20%;
+		transform: translate(-50%, -20%);
+	}
+	
 	.centerFix {
 		position: fixed;
 		left: 50%;
@@ -18,6 +51,7 @@ include ("security.php");
 		transform: translate(-50%, -20%);
 	}
 	</style>
+
 	<script type="text/javascript">
 	$(document).ready(function() {
 	var max_fields      = 20; //maximum input boxes allowed
@@ -31,7 +65,7 @@ include ("security.php");
 		//e.preventDefault();
     	if(x < max_fields){ //max input box allowed
         	x++; //text box increment
-        	$(wrapper).append('<div class="form-group form-inline" id="a"><input type="text" name="question[]" id="Question" class="form-control" placeholder="Enter your question" required>&nbsp; <input type="text" name="answer[]" id="Answer" class="form-control" placeholder="Enter your answer" required>&nbsp; <select class="form-control" name="diff[]" id="Diff"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>'); //add input box
+        	$(wrapper).append('<div class="form-group form-inline" id="a"><input type="text" name="question[]" id="Question" class="form-control" placeholder="Enter your question" required>&nbsp; <input type="text" name="answer[]" id="Answer" class="form-control" placeholder="Enter your answer" required>&nbsp; <select class="form-control" name="diff[]" id="Diff"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br></div>'); //add input box
         } else {
         	if(!alert){
         		$("body").append('<div class="alert alert-danger alert-dismissable fade in centerFix"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a><strong align="center">Input max field reached.</strong></div>');
@@ -129,9 +163,35 @@ include ("security.php");
 			<h1>Create Test</h1>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<p align="center">Specify the name and subject of the test and insert some questions. <br> If you want you can specify the difficulty.</p>
-				<form id="question" name="question" method="post" action="createTest.php">
+			<form id="question" name="question" method="post" enctype="multipart/form-data" action="createTest.php">
+				<div class="col-md-2 col-md-push-9">
+					<div class="form-group" align="center">
+						<div class="kv-avatar" align="center" style="width:200px">
+							<label>Picture:</label>
+							<input id="avatar-1" name="avatar-1" type="file" class="file-loading">
+						</div>
+						<script>
+						$("#avatar-1").fileinput({
+							overwriteInitial: true,
+							maxFileSize: 1500,
+							showClose: false,
+							showCaption: false,
+							browseLabel: '',
+							removeLabel: '',
+							browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+							removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+							removeTitle: 'Cancel or reset changes',
+							elErrorContainer: '#kv-avatar-errors-1',
+							msgErrorClass: 'alert alert-block alert-danger',
+							defaultPreviewContent: '<img src="img/icon-gallery.gif" id="PREVIEW" alt="Your Avatar" style="width:160px">',
+							layoutTemplates: {main2: '{preview} {remove} {browse}'},
+							allowedFileExtensions: ["jpg", "png", "gif"]
+						});
+						</script>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-1 col-md-pull-2">
+					<p align="center">Specify the name and subject of the test and insert some questions. <br> If you want you can specify the difficulty.</p>
 					<div class="form-group">
 						<label for="name">Test name:</label>
 						<input type="text" name="name" id="Name" class="form-control" placeholder="Enter test name" required onfocus="del()">
@@ -157,16 +217,18 @@ include ("security.php");
 								<option value="4">4</option>
 								<option value="5">5</option>
 							</select>
+							<br>
 						</div>
 						<!-- HEMEN GEHIAGO SARTU -->
 
 					</div>
 					<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit">Create test</button>
-				</form>
-				<br><br><br><br><br>
-			</div>
+					<br><br><br><br><br><br><br><br>
+				</div>
+			</form>
 		</div>
 	</div>
+</div>
 </body>
 </html>
 <?php
@@ -193,8 +255,13 @@ if(isset($_POST["submit"])){
 	}
 	else{
 		//TESTA SORTU
+		if(isset($_FILES['avatar-1']) && $_FILES['avatar-1']['size']>0){
+			$image = addslashes(file_get_contents($_FILES['avatar-1']['tmp_name']));
+		}else{
+			$image="";
+		}
 
-		$sql = "INSERT INTO testak (Name, Subject, Creator) VALUES ('$name','$subject','$email')";
+		$sql = "INSERT INTO testak (Name, Subject, Creator, Image) VALUES ('$name','$subject','$email', '$image')";
 
 		if(!mysqli_query($connect, $sql))
 			die('ERROR in test creation: ' . mysqli_error($connect));

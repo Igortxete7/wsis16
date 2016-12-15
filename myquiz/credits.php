@@ -97,9 +97,15 @@ session_start();
       <p> <strong>Speciality:</strong> Software Engineering.</p>
       <img width=720 src="http://media.meltybuzz.es/article-2618826-fb-f1437502963/willyrex-vegetta-wigetta-fanpics-relatos.jpg">
     </div>
-    <p>User position.</p>
-    <div id="map">
+    <br><br>
+    <div class="row">
+      <div align="center">
+        <h3>User position.</h3>
+        <div id="map">
+        </div>
+      </div>
     </div>
+    <br><br>
     <script>
     function initMap() {
       var map = new google.maps.Map(document.getElementById('map'), {

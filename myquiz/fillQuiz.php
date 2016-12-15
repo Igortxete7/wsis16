@@ -3,11 +3,22 @@ session_start();
 include ("security.php");
 include("dataBase.php");
 $email = $_SESSION['user-email'];
+
+if(isset($_POST['TestID'])){
+	$id = $_POST['TestID'];
+}else{
+	header("location:layout.php");
+}
+
+include("dataBase.php");
+
+$ema1 = mysqli_query($connect, "SELECT Name FROM testak WHERE ID = '$id' LIMIT 1");
+$row=mysqli_fetch_row($ema1);
 ?>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Filling Quiz</title>
+	<title>Filling <?php echo $row[0]; ?> Quiz</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/myFunctions.js"></script>
@@ -99,22 +110,40 @@ $email = $_SESSION['user-email'];
 	</nav>
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h2>Insert Question</h2>
+			<h2><?php echo $row[0]; ?></h2>
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
 				<br>
-				<form id="question" name="question" method="post" action="insertQuestion.php">
-					<div class="form-group form-inline">
-						<label for="answer" style="width:12%">Answer:</label>
-						<input type="text" style="width:87%" name="answer" id="Answer" class="form-control" placeholder="Enter your answer" required>
-					</div>
+				<form id="question" name="question" method="post" action="quizResult.php">
+					<?php
+
+					$ema = mysqli_query($connect, "SELECT * FROM Galderak WHERE TestID = '$id'");
+
+					while($row=mysqli_fetch_array($ema, MYSQLI_ASSOC)){
+
+						echo "<div class='form-group form-inline'>
+							<label for='question' style='width:12%''>Question: </label>
+							<span style='width:87%; padding:1.5%; border: 1px solid #cccccc; border-radius:4px;'' name='question' id='Question'>".$row['Question']."</span>
+						</div>";
+
+						echo "<div class='form-group form-inline'>
+							<label for='answer' style='width:12%''>Answer:</label>
+							<input type='text' style='width:87%'' name='answer[]' id='Answer' class='form-control'>
+						</div> <br>";
+				
+					}
+
+					mysqli_free_result($ema);
+					mysqli_close($connect);
+
+					?>
+					<input type="hidden" value="<?php echo $id; ?>" name="TestID" id="TestID">
 					<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit">Submit</button>
 					
 				</form>
 				<br><br><br><br><br>
 			</div>
-
 		</div>
 	</div>
 </body>
