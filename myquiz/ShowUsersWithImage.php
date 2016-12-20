@@ -9,91 +9,13 @@ session_start();
 	<script src="js/bootstrap.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<style type="text/css">
-	#myImg {
+	#userImg, #modalImg {
 		border-radius: 5px;
 		cursor: pointer;
 		transition: 0.3s;
 	}
 
 	#myImg:hover {opacity: 0.7;}
-
-	/* The Modal (background) */
-	.modal {
-		display: none; /* Hidden by default */
-		position: fixed; /* Stay in place */
-		z-index: 1; /* Sit on top */
-		padding-top: 100px; /* Location of the box */
-		left: 0;
-		top: 0;
-		width: 100%; /* Full width */
-		height: 100%; /* Full height */
-		overflow: auto; /* Enable scroll if needed */
-		background-color: rgb(0,0,0); /* Fallback color */
-		background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-	}
-
-	/* Modal Content (image) */
-	.modal-content {
-		margin: auto;
-		display: block;
-		width: 80%;
-		max-width: 700px;
-	}
-
-	/* Caption of Modal Image */
-	#caption {
-		margin: auto;
-		display: block;
-		width: 80%;
-		max-width: 700px;
-		text-align: center;
-		color: #ccc;
-		padding: 10px 0;
-		height: 150px;
-	}
-
-	/* Add Animation */
-	.modal-content, #caption {    
-		-webkit-animation-name: zoom;
-		-webkit-animation-duration: 0.6s;
-		animation-name: zoom;
-		animation-duration: 0.6s;
-	}
-
-	@-webkit-keyframes zoom {
-		from {-webkit-transform:scale(0)} 
-		to {-webkit-transform:scale(1)}
-	}
-
-	@keyframes zoom {
-		from {transform:scale(0)} 
-		to {transform:scale(1)}
-	}
-
-	/* The Close Button */
-	.close {
-		position: absolute;
-		top: 15px;
-		right: 35px;
-		color: #f1f1f1;
-		font-size: 40px;
-		font-weight: bold;
-		transition: 0.3s;
-	}
-
-	.close:hover,
-	.close:focus {
-		color: #bbb;
-		text-decoration: none;
-		cursor: pointer;
-	}
-
-	/* 100% Image Width on Smaller Screens */
-	@media only screen and (max-width: 700px){
-		.modal-content {
-			width: 100%;
-		}
-	}
 	</style>
 </head>
 <body>
@@ -110,41 +32,41 @@ session_start();
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<?php
-					if(isset($_SESSION["auth"])){
-						?>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
-								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Quizzes <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="selectQuiz.php"><span class="glyphicon glyphicon-play"></span> Play Quizzes</a></li>
+							<?php
+							if(isset($_SESSION["auth"])){
+								?>
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Quiz</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
-								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+								<li><a href="questions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
+								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Quizzes</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
 									?>
-									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Quizzes</a></li>
 									<?php
 								}
-								?>
-							</ul>
-						</li>
-						<?php
-					}
+							}
+							?>
+						</ul>
+					</li>
+					<?php
 					if(isset($_SESSION["auth"])){
 						?>
-						<li class="dropdown">
+						<li class="dropdown active">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li class="active"><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li class="active"><a href="users.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
 								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
 							</ul>
 						</li>
 						<?php
 					}
 					?>
-					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
-					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Support</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<?php
@@ -201,7 +123,7 @@ session_start();
 									echo '<tr><td>'.$row['First Name'].'</td><td>'.$row['Last Names'].'</td><td>'.$row['eMail'].'</td><td>'.$row['Phone'].'</td><td>'.$row['Department'].'</td><td>'.$row['Tech'].'</td><td></td></tr>';
 								}
 								else{
-									echo '<tr><td>'.$row['First Name'].'</td><td>'.$row['Last Names'].'</td><td>'.$row['eMail'].'</td><td>'.$row['Phone'].'</td><td>'.$row['Department'].'</td><td>'.$row['Tech'].'</td><td><img id="myImg" src="data:image/jpeg;base64,'.base64_encode( $row['Image'] ).'" alt="'.$row['First Name'].' '.$row['Last Names'].'" width="100"></td></tr>';
+									echo '<tr><td>'.$row['First Name'].'</td><td>'.$row['Last Names'].'</td><td>'.$row['eMail'].'</td><td>'.$row['Phone'].'</td><td>'.$row['Department'].'</td><td>'.$row['Tech'].'</td><td><img id="userImg" data-toggle="modal" data-target="#myModal" src="data:image/jpeg;base64,'.base64_encode( $row['Image'] ).'" alt="'.$row['First Name'].' '.$row['Last Names'].'" width="100"></td></tr>';
 								}
 							}
 
@@ -217,33 +139,25 @@ session_start();
 			</div>
 		</div>
 		<!-- The Modal -->
-		<div id="myModal" class="modal">
-			<span class="close">×</span>
-			<img class="modal-content" id="img01">
-			<div id="caption"></div>
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<img id="modalImg" class="img-responsive" src="" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		<script>
-		// Get the modal
-		var modal = document.getElementById('myModal');
-
-		// Get the image and insert it inside the modal - use its "alt" text as a caption
-		var img = document.getElementById('myImg');
-		var modalImg = document.getElementById("img01");
-		var captionText = document.getElementById("caption");
-		img.onclick = function(){
-			modal.style.display = "block";
-			modalImg.src = this.src;
-			captionText.innerHTML = this.alt;
-		}
-
-		// Get the <span> element that closes the modal
-		var span = document.getElementsByClassName("close")[0];
-
-		// When the user clicks on <span> (x), close the modal
-		span.onclick = function() { 
-			modal.style.display = "none";
-		}
-
+		<script type="text/javascript">
+		$(document).ready(function () {
+			$('#myModal').on('show.bs.modal', function (e) {
+				var image = $(e.relatedTarget).attr('src');
+				$(".img-responsive").attr("src", image);
+			});
+		});
 		</script>
 	</div>
 </body>

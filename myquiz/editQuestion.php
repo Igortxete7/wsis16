@@ -1,24 +1,34 @@
 <?php
-session_start();
-include('security.php');
-if($_SESSION['user-email'] !== 'web000@ehu.es'){
-  header("Location: layout.html");
-}
-
-include('dataBase.php');
-$id = $_POST['idIN'];
-$email = $_POST['emailIN'];
-$question = $_POST['questionIN'];
-$answer = $_POST['answerIN'];
-$subject = $_POST['subjectIN'];
-$difficulty = "";
-
-if($_POST['difficultyIN'] !== "-")
-  $difficulty = $_POST['difficultyIN'];
-
-$update = "UPDATE Galderak SET Question='$question', Answer='$answer', Subject='$subject', Difficulty='$difficulty' WHERE `ID`='$id'";
-$ans = mysqli_query($connect,$update);
-
-echo"OK";
-
+  session_start();
+  include('security.php');
+  if($_SESSION['user-email'] !== 'web000@ehu.es'){
+    header("Location: layout.php");
+  }
+  include('dataBase.php');
+  $question = mysqli_real_escape_string($connect,$_POST['question']);
+  $number = mysqli_real_escape_string($connect,$_POST['number']);
+  $answer = mysqli_real_escape_string($connect,$_POST['answer']);
+  if(isset($_POST['difficulty'])){
+    $difficulty = mysqli_real_escape_string($connect,$_POST['difficulty']);
+  } else {
+    $difficulty = '';
+  }
+  $sql = "SELECT * FROM galderak WHERE `ID`='$number'";
+  $query = mysqli_query($connect,$sql);
+  $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
+  if($question !== $row['Question']){
+    $update = "UPDATE galderak SET Question='$question' WHERE `ID`='$number'";
+    $updatequery = mysqli_query($connect,$update);
+  }
+  if($answer !== $row['Answer']){
+    $update = "UPDATE galderak SET Answer='$answer' WHERE `ID`='$number'";
+    $updatequery = mysqli_query($connect,$update);
+  }
+  if(isset($_POST['difficulty']) && $difficulty !== $row['Difficulty']){
+    $update = "UPDATE galderak SET Difficulty='$difficulty' WHERE `ID`='$number'";
+    $updatequery = mysqli_query($connect,$update);
+  }
+  mysqli_free_result($query);
+  mysqli_close($connect);
+  echo "edited";
 ?>

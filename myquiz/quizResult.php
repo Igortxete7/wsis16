@@ -36,7 +36,7 @@ $row=mysqli_fetch_row($ema1);
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse" style="border-radius:0px">
+		<nav class="navbar navbar-inverse" style="border-radius:0px">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -49,41 +49,41 @@ $row=mysqli_fetch_row($ema1);
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<?php
-					if(isset($_SESSION["auth"])){
-						?>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
-								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
-								<li class="active"><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
-								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+					<li class="dropdown active">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Quizzes <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li class="active"><a href="selectQuiz.php"><span class="glyphicon glyphicon-play"></span> Play Quizzes</a></li>
+							<?php
+							if(isset($_SESSION["auth"])){
+								?>
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Quiz</a></li>
+								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
+								<li><a href="questions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
+								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Quizzes</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
 									?>
-									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Quizzes</a></li>
 									<?php
 								}
-								?>
-							</ul>
-						</li>
-						<?php
-					}
+							}
+							?>
+						</ul>
+					</li>
+					<?php
 					if(isset($_SESSION["auth"])){
 						?>
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="users.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
 								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
 							</ul>
 						</li>
 						<?php
 					}
 					?>
-					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
-					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Support</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<?php
@@ -111,10 +111,11 @@ $row=mysqli_fetch_row($ema1);
 	</nav>
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h2><?php echo $row[0]; ?> Results</h2>
+			<h2><?php echo $row[0]; ?></h2>
+			<h2>Results</h2>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
+			<div class="col-sm-8 col-sm-offset-2">
 				<br>
 				<form action="layout.php">
 					<?php
@@ -131,27 +132,28 @@ $row=mysqli_fetch_row($ema1);
 							$row=mysqli_fetch_array($ema, MYSQLI_ASSOC);
 
 							echo "<div class='form-group form-inline'>
-							<label for='question' style='width:12%'>Question: </label>
-							<span style='width:87%; padding:1.5%; border: 1px solid #cccccc; border-radius:4px;'' name='question' id='Question'>".$row['Question']."</span>
+							<span style='width:100%; padding:1.5%; border: 1px solid #cccccc; border-radius:4px;'' name='question' id='Question'>".$row['Question']."</span>
 							</div>";
 
 							if(strcasecmp($unekoans, $row['Answer']) == 0){
 								//ONDOO
 								$score++;
 								?>
-								<div class="form-group has-success has-feedback form-inline">
-									<label class="control-label" style='width:12%' for="inputSuccess">Correct:</label>
-									<input type="text" style='width:87%' class="form-control" value="<?php echo $unekoans; ?>">
-								</div><br>
+								<div class="form-group has-success has-feedback">
+									<label class="control-label" for="inputSuccess">Correct:</label>
+									<input type="text" style='width:100%' class="form-control" value="<?php echo $unekoans; ?>">
+									<span class="glyphicon glyphicon-ok form-control-feedback"></span>
+								</div><br><br>
 
 								<?php
 							} else {
 								//GAIZKII
 								?>
-								<div class="form-group has-error has-feedback form-inline">
-									<label class="control-label" style='width:12%' for="inputError">Wrong:</label>
-									<input type="text" style='width:87%' class="form-control" value="<?php echo $unekoans; ?>">
-								</div><br>
+								<div class="form-group has-error has-feedback">
+									<label class="control-label" for="inputError">Wrong:</label>
+									<input type="text" style='width:100%' class="form-control" value="<?php echo $unekoans; ?>">
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</div><br><br>
 								<?php
 							}
 							$totala++;

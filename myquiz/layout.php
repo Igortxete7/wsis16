@@ -79,7 +79,7 @@ session_start();
 								?>
 								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Quiz</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
-								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
+								<li><a href="questions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
 								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Quizzes</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
@@ -97,7 +97,7 @@ session_start();
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="users.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
 								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
 							</ul>
 						</li>
@@ -151,7 +151,7 @@ session_start();
 		<ul class="nav navbar-nav navbar-left">
 			<li><a href="credits.php"><span class="glyphicon glyphicon-sunglasses"></span> About Us</a></li>
 			<li><a target="_blank" href="https://github.com/Igortxete7/wsis16/"><span class="glyphicon glyphicon-link"></span> Link Github</a></li>
-			<li><a target="_blank" href="https://en.wikipedia.org/wiki/Quiz"><span class="glyphicon glyphicon-hourglass"></span> Quizzes</a></li>
+			<li><a target="_blank" href="https://en.wikipedia.org/wiki/Quiz"><span class="glyphicon glyphicon-hourglass"></span> Quiz</a></li>
 		</ul>
 		<div class="container">
 			<p class="nav navbar-text navbar-right">© 2016 </p>

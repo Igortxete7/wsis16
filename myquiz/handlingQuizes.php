@@ -1,95 +1,136 @@
-<?php
-session_start();
-include ("security.php");
+<?php 
+session_start(); 
+include('security.php'); 
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Handling Quizes</title>
+	<title>Handle your quizes and questions</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<style>
+	#count {
+		margin-bottom: 12px;
+		font-size: 110%;
+	}
+	#showquestions {
+		margin-bottom: 5px;
+	}
+	.form-php{
+		color: green;
+	}
+	.form-control, #create-quiz {
+		border: 1px solid #000;
+	}
+	.form-group, #create-quiz {
+		margin-bottom: 7px;
+	}
+	#difficulties{
+		margin-bottom: 7px;
+	}
+	a#testname:hover, a#testname:active, a#testname:link, a#testname:visited {
+		text-decoration: none;
+	}
+
+	.centerFix {
+		position: fixed;
+		left: 50%;
+		top: 20%;
+		transform: translate(-50%, -20%);
+	}
+	</style>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="js/myFunctions.js" type="text/javascript"></script>
-
 	<script type="text/javascript">
-
-	var activeCollapse = 0;
-	xhttp = new XMLHttpRequest();
-
-	xhttp.onreadystatechange = function(){
-		if (xhttp.readyState==4){
-			var obj = document.getElementById('insert'); 
-			obj.innerHTML = xhttp.responseText;
-			$("#insert").collapse("show");
+	function addQuestion(){
+		$('#showquestions').removeClass('active');
+		//$('#div-showquestions').css('display','none');
+		$('#div-showquestions').collapse("hide");
+		//if($('#div-addquestion').css('display') == 'none'){
+			if($('#div-addquestion').is(":hidden")){
+				$('#addquestion').addClass('active');
+				$('#addquestion').blur();
+			//$('#div-addquestion').css('display','block');
+			$('#div-addquestion').collapse("show");
+			$('#div-php').empty();
+			//$('#div-php').css('display','block');
+			$('#div-php').collapse("show");
+			$('#div-addquestion').load("handlingQuizes-insertQuestion.php");
+		//} else if($('#div-addquestion').css('display') == 'block'){
+		} else if ($('#div-addquestion').is(":visible")){
+			$('#addquestion').removeClass('active');
+			$('#addquestion').blur();
+			//$('#div-addquestion').css('display','none');
+			$('#div-addquestion').collapse("hide");
+			//$("#div-php").css('display','none');
+			$('#div-php').collapse("hide");
+			$("#div-php").empty();
 		}
 	}
-
-	function datuakEskatu(){
-		if(activeCollapse !== 1){
-			xhttp.open("GET",'insertQuestionHandling.php');
-			xhttp.send(null);
-			activeCollapse = 1;
-		}else{
-			$("#insert").collapse("toggle");
-		}
-	} 
-
-	function datuakEskatu2(){
-		if(activeCollapse !== 2){
-			xhttp.open("GET",'showUserQuestionsHandling.php');
-			xhttp.send(null);
-			activeCollapse = 2;
-		}else{
-			$("#insert").collapse("toggle");
+	function showQuestions(){
+		$('#addquestion').removeClass('active');
+		//$("#div-addquestion").css('display','none');
+		$('#div-addquestion').collapse("hide");
+		//$("#div-php").css('display','none');
+		$('#div-php').collapse("hide");
+		$("#div-php").empty();
+		//if($('#div-showquestions').css('display') == 'none'){
+			if($('#div-showquestions').is(":hidden")){
+				$('#showquestions').addClass('active');
+				$('#showquestions').blur();
+			//$('#div-showquestions').css('display','block');
+			$('#div-showquestions').collapse("show");
+			$('#div-showquestions').load("handlingQuizes-showMyQuestions.php");
+		//} else if($('#div-showquestions').css('display') == 'block'){
+		} else if ($('#div-showquestions').is(":visible")){
+			$('#showquestions').removeClass('active');
+			$('#showquestions').blur();
+			//$('#div-showquestions').css('display','none');
+			$('#div-showquestions').collapse("hide");
 		}
 	}
-
-	function datuakEskatu3(){
-		if(activeCollapse !== 3){
-			xhttp.open("GET",'showQuestionsHandling.php');
-			xhttp.send(null);
-			activeCollapse = 3;
-		}else{
-			$("#insert").collapse("toggle");
-		}
-	} 
-
-	xhttp1 = new XMLHttpRequest();
-
-	function dbShowData(){
-		xhttp1.onreadystatechange = function(){
-			if((xhttp1.readyState==4) && (xhttp1.status==200)){
-				document.getElementById("info").innerHTML=xhttp1.responseText;
+	function submitForm(){
+		var test = $("#tests option:selected").text();
+		var question = $("#question").val();
+		var answer = $("#answer").val();
+		var diff = document.getElementsByName("difficulty");
+		if(question !== "" && answer !== ""){
+			$("#div-php").html("...");
+			var difficulty="";
+			for(var i=0;i<5;i++){
+				if(diff[i].checked){
+					difficulty = diff[i].value;
+				}
 			}
+			$.post(
+				"handlingQuizes-insertPHP.php",
+				{
+					test: test,
+					question: question,
+					answer: answer,
+					difficulty: difficulty
+				},
+				function(result){
+					$('#div-php').html(result);
+				}
+				);
+		} else{
+			var content = '<div class="alert alert-danger alert-dismissable fade in centerFix"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a><strong align="center">You need to fill question and answer fields.</strong></div>';
+			$("#div-php").html(content);
 		}
-		xhttp1.open("GET","userInfo.php");
-		xhttp1.send(null);
 	}
-
-
-	xhttp2 = new XMLHttpRequest();
-
-	xhttp2.onreadystatechange = function(){
-		if((xhttp2.readyState==4) && (xhttp2.status==200)){
-			alert(xhttp2.responseText);
-			document.getElementById("info").innerHTML=xhttp2.responseText;
-			$("#insert").collapse("show");
-		}
-	}
-
-	function insert(){
-		xhttp2.open("POST","insertQuestionHandling2.php");
-		xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp2.send("question=" + document.getElementById("Question").value + "&answer=" + document.getElementById("Answer").value + "&subject=" + document.getElementById("subject").value + "&diff=" + document.getElementById("Diff").value + "$submit=Submit");
-	}
-
+	window.onload = function(){load();};
 	function refresh(){
-		dbShowData();
-		setInterval(dbShowData,5000);
+		$("#questioncount").load("handlingQuizes-questionCount.php");
+	}
+	function load(){
+		refresh();
+		setInterval(refresh,5000);
 	}
 	</script>
 </head>
-<body hspace="50" onload="refresh()">
+
+<body>
 	<nav class="navbar navbar-inverse" style="border-radius:0px">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -103,41 +144,41 @@ include ("security.php");
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<?php
-					if(isset($_SESSION["auth"])){
-						?>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
-								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
+					<li class="dropdown active">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Quizzes <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="selectQuiz.php"><span class="glyphicon glyphicon-play"></span> Play Quizzes</a></li>
+							<?php
+							if(isset($_SESSION["auth"])){
+								?>
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Quiz</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
-								<li class="active"><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+								<li><a href="questions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
+								<li class="active"><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Quizzes</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
 									?>
-									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Quizzes</a></li>
 									<?php
 								}
-								?>
-							</ul>
-						</li>
-						<?php
-					}
+							}
+							?>
+						</ul>
+					</li>
+					<?php
 					if(isset($_SESSION["auth"])){
 						?>
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="users.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
 								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
 							</ul>
 						</li>
 						<?php
 					}
 					?>
-					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
-					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Support</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<?php
@@ -163,30 +204,23 @@ include ("security.php");
 			</div>
 		</div>
 	</nav>
-	<div class="container">
-		<div class="jumbotron text-center">
-			<h1>Handle Questions</h1> 
+	<div class="container" style="text-align: center">
+		<div class="jumbotron text-center" style="margin-bottom: 12px">
+			<h1>Handle quizes and questions</h1>
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<div align="center" id="info">
+				<div id="count">
+					My questions/Total questions : <span id="questioncount"></span>
 				</div>
+				<input class="btn btn-primary btn-block" type="button" id="addquestion" name="addquestion" value="Add question" onclick="addQuestion()">
+				<input class="btn btn-primary btn-block" type="button" id="showquestions" name="showquestions" value="Show my questions" onclick="showQuestions()">
 				<br>
-				<div class="btn-group btn-group-justified">
-					<a class="btn btn-primary" onclick="datuakEskatu3()">Show questions</a>
-					<a class="btn btn-primary" onclick="datuakEskatu()">Insert questions</a>
-					<a class="btn btn-primary" onclick="datuakEskatu2()">Show my questions</a>
-				</div>
-				<br>
-				<br>
+				<div class="form-group collapse" id="div-addquestion"></div><!-- style="display:none" -->
+				<div class="form-php collapse" id="div-php"></div>
+				<div class="form-group collapse" id="div-showquestions"></div>
 			</div>
 		</div>
-		<div id="insert" name="insert" class="collapse">
-		</div>
 	</div>
-</div>
-</div>
-<br><br><br>
-</div>
 </body>
 </html>

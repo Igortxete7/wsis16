@@ -5,7 +5,7 @@ include ("security.php");
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Create Test</title>
+	<title>Create Quiz</title>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -98,41 +98,41 @@ include ("security.php");
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<?php
-					if(isset($_SESSION["auth"])){
-						?>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li class="active"><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
-								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
+					<li class="dropdown active">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Quizzes <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="selectQuiz.php"><span class="glyphicon glyphicon-play"></span> Play Quizzes</a></li>
+							<?php
+							if(isset($_SESSION["auth"])){
+								?>
+								<li class="active"><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Quiz</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
-								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+								<li><a href="questions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
+								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Quizzes</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
 									?>
-									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Quizzes</a></li>
 									<?php
 								}
-								?>
-							</ul>
-						</li>
-						<?php
-					}
+							}
+							?>
+						</ul>
+					</li>
+					<?php
 					if(isset($_SESSION["auth"])){
 						?>
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="users.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
 								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
 							</ul>
 						</li>
 						<?php
 					}
 					?>
-					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
-					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Support</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<?php
@@ -160,7 +160,7 @@ include ("security.php");
 	</nav>
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h1>Create Test</h1>
+			<h1>Create Quiz</h1>
 		</div>
 		<div class="row">
 			<form id="question" name="question" method="post" enctype="multipart/form-data" action="createTest.php">
@@ -223,7 +223,7 @@ include ("security.php");
 
 					</div>
 					<button class="btn btn-primary btn-block" type="submit" value="Submit" name="submit">Create test</button>
-					<br><br><br><br><br><br><br><br>
+					<br><br><br><br><br><br>
 				</div>
 			</form>
 		</div>

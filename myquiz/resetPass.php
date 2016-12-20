@@ -19,7 +19,7 @@ session_start();
 	</style>
 </head>
 <body>
-	<nav class="navbar navbar-inverse" style="border-radius:0px">
+		<nav class="navbar navbar-inverse" style="border-radius:0px">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -32,41 +32,41 @@ session_start();
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="layout.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<?php
-					if(isset($_SESSION["auth"])){
-						?>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Tests <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Test</a></li>
-								<li><a href="showQuestions.php"><span class="glyphicon glyphicon-eye-open"></span> Show Questions</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-gift"></span> Quizzes <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="selectQuiz.php"><span class="glyphicon glyphicon-play"></span> Play Quizzes</a></li>
+							<?php
+							if(isset($_SESSION["auth"])){
+								?>
+								<li><a href="createTest.php"><span class="glyphicon glyphicon-book"></span> Create Quiz</a></li>
 								<li><a href="insertQuestion.php"><span class="glyphicon glyphicon-import"></span> Insert Questions</a></li>
-								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Questions</a></li>
+								<li><a href="questions.php"><span class="glyphicon glyphicon-eye-open"></span> See All Quizzes</a></li>
+								<li><a href="handlingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Handle Quizzes</a></li>
 								<?php
 								if($_SESSION['user-email'] == "web000@ehu.es"){
 									?>
-									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Questions</a></li>
+									<li><a href="reviewingQuizes.php"><span class="glyphicon glyphicon-stats"></span> Rewiew Quizzes</a></li>
 									<?php
 								}
-								?>
-							</ul>
-						</li>
-						<?php
-					}
+							}
+							?>
+						</ul>
+					</li>
+					<?php
 					if(isset($_SESSION["auth"])){
 						?>
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="showUsersWithImage.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
+								<li><a href="users.php"><span class="glyphicon glyphicon-eye-open"></span> Show Users</a></li>
 								<li><a href="getUserInfo.php"><span class="glyphicon glyphicon-search"></span> Get User Info</a></li>
 							</ul>
 						</li>
 						<?php
 					}
 					?>
-					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Send a comment</a></li>
-					<li><a href="credits.php"><span class="glyphicon glyphicon-align-left"></span> Credits</a></li>
+					<li><a href="sendComment.php"><span class="glyphicon glyphicon-comment"></span> Support</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<?php
@@ -98,7 +98,7 @@ session_start();
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<p align="center">Introduce your email and we will send you the new password.</p>
+				<p align="center">Introduce your email and your new password will be sent to you.</p>
 				<form id="reset" name="reset" method="post" action="resetPass.php">
 					<div class="form-group">
 						<label for="email">Email:</label>
@@ -126,11 +126,12 @@ if(isset($_POST['submit'])){
 	<title>New password</title>
 	</head>
 	<body>
-	<p>Your password has been reset.</p>
-	<p> Here is your new password to have access to <a href='http://www.igortxete.hol.es'>Igortxete.hol.es</a>. </p>
+	<p> Your password has been reset.</p>
+	<p> Use this password to login: $newPass</p>
 	<br>
-	<p>".$newPass." </p>
+	<p> We suggest that you change your password as soon as you login.</p>
 	<br>
+	<p><a href='http://www.igortxete.hol.es'>Igortxete.hol.es</a>. </p>
 	<br>
 	</body>
 	</html>
@@ -149,14 +150,14 @@ if(isset($_POST['submit'])){
 
 		include("dataBase.php");
 
-		$sql = "SELECT * FROM Erabiltzaile WHERE eMail = '$to'";
+		$sql = "SELECT * FROM erabiltzaile WHERE eMail = '$to'";
 		$query = mysqli_query($connect,$sql);
 		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 		$count = mysqli_num_rows($query);
 
 		if($count == 1){
 
-			$sql2 = "UPDATE Erabiltzaile
+			$sql2 = "UPDATE erabiltzaile
 			SET Password = '$enctPass'
 			WHERE eMail = '$to'";
 			$ema2=mysqli_query($connect, $sql2);

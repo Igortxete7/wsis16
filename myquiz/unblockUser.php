@@ -5,8 +5,8 @@
     header("Location: layout.php");
   }
   include('dataBase.php');
-  $number = mysqli_real_escape_string($connect,$_POST['number']);
-  $sql = "DELETE FROM galderak WHERE `ID`='$number'";
+  $email = mysqli_real_escape_string($connect,$_POST['email']);
+  $sql = "UPDATE erabiltzaile SET Attempts=0 WHERE `eMail`='$email'";
   $query = mysqli_query($connect,$sql);
-  echo "deleted";
+  echo "unblocked";
 ?>
