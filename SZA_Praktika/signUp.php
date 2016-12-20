@@ -1,46 +1,38 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-  <link href="style.css" rel="stylesheet" type="text/css">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet" type="text/css"/>
   <title>Sign UP</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
   <script type="text/javascript" src="functions.js"></script>
 </head>
 <body>
   <!-- Erregistratzeko orria -->
-  <button style="position: absolute; top: 50px; left:50px;"> Go back </button>
-  <br>
-  <br>
+  <p><button style="position: absolute; top: 50px; left:50px;" onclick="location.href='login.php'"> Go back </button></p>
+  <p><br/><br/></p>
   <div id="page">
     <p id='name'>Sign Up</p>
     <!-- Formularioa, datuak sartzeko -->
-    <form id="erregistro" name="erregistro" onsubmit="return balioztatu()" method="post" action="signUp.php">
-      First name:<font color="red">*</font><br>
-      <input type="text" name="firstname" id="First name" required placeholder="Name"><br>
-      <p id='space'></p>
-      Last name:<font color="red">*</font><br>
-      <input type="text" name="lastname" id="Last name" required placeholder="Surname"><br>
-      <p id='space'></p>
-      e-mail:<font color="red">*</font><br>
-      <input type="text" name="email" id="e-mail" onchange="validateMail()" required placeholder="e-Mail"><br>
-      <p id='space'></p>
-      Password:<font color="red">*</font><br>
-      <input type="password" name="password" id="Password"  required placeholder="Password"><br>
-      <p id='space'></p>
-      Repeat Password:<font color="red">*</font><br>
-      <input type="password" name="password2" id="Password Repeat"  required placeholder="Password"><br>
-      <p id='space'></p>
-      Credit card number:<font color="red">*</font><br>
-      <input type="text" name="credit" id="Credit Card number" required placeholder="XXXX-XXXX-XXXX"><br>
-      <p id='space'></p>
+    <form id="erregistro" onsubmit="return balioztatu()" method="post" action="signUp.php">
+      <p>First name:<span class="star">*</span><br/></p>
+      <p><input type="text" name="firstname" id="First_name" required placeholder="Name"/><br/></p>
+      <p>Last name:<span class="star">*</span><br/></p>
+      <p><input type="text" name="lastname" id="Last_name" required placeholder="Surname"/><br/></p>
+      <p>e-mail:<span class="star">*</span><br/></p>
+      <p><input type="text" name="email" id="e-mail" onchange="validateMail()" required placeholder="e-Mail"/><br/></p>
+      <p>Password:<span class="star">*</span><br/></p>
+      <p><input type="password" name="password" id="Password"  required placeholder="Password"/><br/></p>
+      <p>Repeat Password:<span class="star">*</span><br/></p>
+      <p><input type="password" name="password2" id="Password_Repeat"  required placeholder="Password"/><br/></p>
+      <p>Credit card number:<span class="star">*</span><br/></p>
+      <p><input type="text" name="credit" id="Credit_Card_number" required placeholder="XXXX-XXXX-XXXX"/><br/></p>
       <div id="container">
       </div>
-      <br>
-      <input id="Submit" type="submit" name="submit" value="Submit">
-      <input id="Reset" type="reset" value="Reset">
-  </form>
-</div>
+      <p><br/></p>
+      <p><input id="Submit" type="submit" name="submit" value="Submit"/><input id="Reset" type="reset" value="Reset"/></p>
+    </form>
+  </div>
 </body>
 </html>
 <?php

@@ -1,4 +1,4 @@
-	--- Erabili den estiloa ---
+	/*--- Erabili den estiloa ---*/
 
 	p#name  {
 		font-size: 300%; 
@@ -69,6 +69,24 @@
 		background-color: rgba(255,255,255,0.1);
 	}
 
+
+	#buttons, #prizeTable, #pid, #tableC, #pcenter , #sur, #container {
+		text-align: center;
+		margin-left: auto;
+    	margin-right: auto;
+	}
+
+	#machine, #data {
+		text-align: center;
+		margin-left: auto;
+    	margin-right: auto;
+    	width: 600px ;
+	}
+
+	.star {
+		color: red;
+	}
+
 	img.middle{
 		vertical-align: middle;
 	}
@@ -122,17 +140,16 @@
 	}
 
 
-	--- LOGIN ---
+	/*--- LOGIN ---*/
 
 	input[type=checkbox] {
-		width:2%;
+		width:3%;
 	}
 
 	input, select {
-		width: 100%;
+		width: 93%;
 		padding: 12px 20px;
 		margin: 8px 0;
-		display: inline-block;
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		font-size: 100%;
